@@ -1,0 +1,90 @@
+{include file="public/head" title='切换用户'}
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-add">
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>账号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="" placeholder="" id="user_name" name="user_name">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">密码：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>验证码：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" style="width: 150px;" value="" placeholder="" id="verify" name="verify"> <img src="{:url('Login/verify')}" id='verifyImg'>
+		</div>
+	</div>
+	<div class="row cl">
+		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+		</div>
+	</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$('#verifyImg').click(function(){
+        $(this).prop('src', "/Admin/Login/verify/num/" + Math.random());
+    })
+    // ajax登陆
+    $("#form-admin-add").submit(function(){
+        var user_name = $('#user_name').val();
+        var password = $('#password').val();
+        var verify = $('#verify').val();
+        if(user_name == ''){
+            layer.tips('用户名不能为空!', '#user_name');
+                return false;
+            }
+            if(password == ''){
+                layer.tips('密码不能为空!', '#password');
+                return false;
+            }
+            if(verify == ''){
+                layer.tips('验证码不能为空!', '#verify');
+                return false;
+            }
+            $.ajax({
+                type: 'post',
+                url : '{:url("Login/dologin")}',
+                data: {
+                    user_name:user_name, 
+                    password:password, 
+                    verify:verify
+                },
+                success: function (data){
+                    if(data.status == 1){
+                        var index = parent.layer.getFrameIndex(window.name);
+                         parent.$('.btn-refresh').click();
+                         window.parent.location.reload(); //刷新父页面
+                          parent.layer.close(index);
+                        // window.location.href = data.url;
+                    }else{
+                        layer.msg(data.msg, {icon:2, time:1500});
+                        $('#verifyImg').prop('src', "/Admin/Login/verify/num/" + Math.random());
+                    }
+                }
+            })
+            return false;
+        })
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

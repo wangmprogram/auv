@@ -1,0 +1,82 @@
+{include file='public/head' title='配置列表'}
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理 <span class="c-gray en">&gt;</span> 角色列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="cl pd-5 bg-1 bk-gray mt-20"> 
+        <span class="l">
+            <a href="javascript:;" onclick="config_add('添加配置','{:url("Config/configAdd")}','800','400')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i>添加配置</a>
+        </span> 
+    </div>
+    <form class="form form-horizontal" id="form-config-save">
+        <table width="98%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CFCFCF" align="center" style="margin-top:8px">
+        <!-- data start-->
+            {foreach $config as $value}
+            <tr align='center' bgcolor="#FFFFFF" height="48" align="center" onMouseMove="javascript:this.bgColor='#FCFDEE';" onMouseOut="javascript:this.bgColor='#FFFFFF';">
+                <td align='left' width="10%">&nbsp;&nbsp;{$value['info']}：</td>
+                <td align="left" width="90%">
+                    <input type="text" name="{$value['varname']}"  value="{$value['value']}" class="input-text" style="width: 90%"/>
+                </td>
+            </tr>
+            {/foreach}
+        </table>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/laypage/1.2/laypage.js"></script>
+
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+
+<script type="text/javascript">
+/*系统配置保存*/
+$(function(){
+    $("#form-config-save").validate({
+        rules:{
+        },
+        onkeyup:false,
+        focusCleanup:true,
+        success:"valid",
+        submitHandler:function(form){ 
+            $(form).ajaxSubmit({
+                type: 'post',
+                url: "{:url('Config/configList')}",
+                success: function(data){
+                    if(data.status==1){
+                        layer.msg(data.msg,{icon:1,time:1000},function(){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        window.location.reload(); //刷新页面
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(data.msg,{icon:1,time:1500});
+                    }   
+                },
+                error: function(XmlHttpRequest, textStatus, errorThrown){
+                    layer.msg('error!',{icon:1,time:1000});
+                }
+            });
+        }
+    });
+});
+/*配置-增加*/
+function config_add(title,url,w,h){
+    layer_show(title,url,w,h);
+}
+</script>
+</body>
+</html>

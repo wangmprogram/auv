@@ -1,0 +1,118 @@
+{include file='public/head' title='编辑角色 - 管理员管理'}
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-role-add">
+	<input type="hidden" name="role_id" value="{$roleInfo.role_id}"/>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="{$roleInfo.role_name}" placeholder="" id="role_name" name="role_name">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">角色描述：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="{$roleInfo.role_desc}" placeholder="" id="" name="role_desc">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">权限分配：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			{foreach $menus as $k=>$menu}
+			<dl class="permission-list">
+				<dt>
+					<label>
+						<input type="checkbox" value="{$menu.mod_id}" name="access[]" id="user-Character-{$k}" {if condition="in_array($menu['mod_id'], $roleAccessData)"}checked='checked'{/if}>
+						{$menu.title}
+					</label>
+				</dt>
+				<dd>
+					<dl class="cl permission-list2">
+						<dd>
+							{foreach $menu['childNodes'] as $kk=>$child}
+							<label class="">
+								<input type="checkbox" value="{$child.mod_id}" name="access[]" id="user-Character-{$k}-{$kk}" {if condition="in_array($menu['mod_id'], $roleAccessData)"}checked='checked'{/if}>{$child.title}
+							</label>
+							{/foreach}
+						</dd>
+					</dl>
+				</dd>
+			</dl>
+			{/foreach}
+		</div>
+	</div>
+	<div class="row cl">
+		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+			<button type="submit" class="btn btn-success radius" id="admin-role-save"><i class="icon-ok"></i> 确定</button>
+		</div>
+	</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".permission-list dt input:checkbox").click(function(){
+		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+	});
+	$(".permission-list2 dd input:checkbox").click(function(){
+		var l =$(this).parent().parent().find("input:checked").length;
+		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+		if($(this).prop("checked")){
+			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+		}
+		else{
+			if(l==0){
+				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+			}
+			if(l2==0){
+				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+			}
+		}
+	});
+	$("#form-admin-role-add").validate({
+		rules:{
+			role_name:{
+				required: true,
+			}
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success: "valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit({
+				type: 'post',
+				url: "{:url('Admin/roleEdit')}",
+				success: function(data){
+					if(data.status == 1){
+						layer.msg(data.msg,{icon:1,time:1000}, function(){
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.$('.btn-refresh').click();
+							window.parent.location.reload(); //刷新父页面
+							parent.layer.close(index);
+						});
+					}else{
+						layer.msg(data.msg,{icon:1,time:1500});
+					}
+				},
+                error: function(XmlHttpRequest, textStatus, errorThrown){
+					layer.msg('error!',{icon:1,time:1000});
+				}
+			});
+		}
+	});
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

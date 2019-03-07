@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>收货地址</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="__STATIC__/home/css/edit_address.css" type="text/css">
+    <script src="__STATIC__/home/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__STATIC__/home/js/global.js" type="text/javascript"></script>
+    <script src="__STATIC__/home/js/layer/layer.js" type="text/javascript"></script>
+    <script src="__STATIC__/home/js/layer-min.js"></script><!--弹窗js 参考文档 http://layer.layui.com/-->
+</head>
+<style type="text/css">
+.wi80-BFB{width:80%}
+.wi40-BFB{width:40%}
+.seauii{ padding:7px 10px; margin-right:10px}
+.he110{ height:110px}
+.di-bl{ display:inherit}
+</style>
+<body>
+<div class="adderss-add">
+    <div class="ner-reac ol_box_4" style="visibility: visible; position: fixed; z-index: 500; width: 100%; height:100%">
+        <div class="box-ct">
+            <div class="box-header">
+                <!-- <a href="" class="box-close"></a> -->
+                <span class="box-title">修改地址</span>
+            </div>
+            <form action="" method="post" id="edit_address">
+                <input type="hidden" name="address_id" value="{$info.address_id}">
+                <table width="90%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="right"><span class="xh">*</span>收货人：&nbsp;</td>
+                        <td><input class="wi80-BFB" name="consignee" type="text" value="{$info.consignee}" maxlength="12" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="xh">*</span>收货地址：&nbsp;</td>
+                        <td>
+                            <select class="di-bl fl seauii" name="province" style="width: 130px" id="province" onChange="get_city(this,0)">
+                                <option value="0">请选择</option>
+                                {foreach $province as $v}
+                                <option   value="{$v.id}" {if condition="$info['province'] eq $v['id']"}selected{/if}>{$v.name
+                                    }</option>
+                                {/foreach}
+                            </select>
+                            <select class="di-bl fl seauii" name="city" style="width: 130px" id="city" onChange="get_area(this)">
+                                <option  value="0">请选择</option>
+                                {foreach $area as $v}
+                                    <option   value="{$v.id}" {if condition="$info['city'] eq $v['id']"}selected{/if}>{$v.name}</option>
+                                {/foreach}
+                            </select>
+                            <select class="di-bl fl seauii" name="district" style="width: 130px" id="district" onChange="get_twon(this)">
+                                <option  value="0">请选择</option>
+                                {foreach $area as $v}
+                                    <option   value="{$v.id}" {if condition="$info['district'] eq $v['id']"}selected{/if}>{$v.name}</option>
+                                {/foreach}
+                            </select>
+                            <select class="di-bl fl seauii" style="width: 130px" name="twon" id="twon" >
+                                {foreach $area as $v}
+                                    <option   value="{$v.id}" {if condition="$info['twon'] eq $v['id']"}selected{/if}>{$v.name}</option>
+                                {/foreach}
+                            </select>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" valign="top"><span class="xh">*</span>详细地址：&nbsp;</td>
+                        <td><textarea class="he110 wi80-BFB re-no" name="address" id="address" placeholder="详细地址" maxlength="100">{$info.address}</textarea></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="xh">*</span>邮编：&nbsp;</td>
+                        <td><input class="wi80-BFB" type="text" name="zipcode" value="{$info.zipcode}"   maxlength="10"/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><span class="xh">*</span>手机号：&nbsp;</td>
+                        <td><input class="wi80-BFB" type="text" name="mobile" value="{$info.mobile}"  maxlength="15"/></td>
+                    </tr>
+                    <tr>
+                        <td class="pa-50-0">&nbsp;</td>
+                        <td align="right">
+                            <button type="submit" style="" class="box-ok ma-le--70"><span>保存收货地址</span></button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/home/js/global.js"></script>
+<script src="__STATIC__/home/js/pc_common.js"></script>
+<script>
+    $('#edit_address').submit(function(){
+        var consignee = $('input[name="consignee"]').val();
+        var address_id = $('input[name="address_id"]').val();
+        var province = $('select[name="province"]').find('option:selected').val();
+        var city = $('select[name="city"]').find('option:selected').val();
+        var district = $('select[name="district"]').find('option:selected').val();
+        var twon = $('select[name="twon"]').find('option:selected').val();
+        var address = $('textarea[name="address"]').val();
+        var zipcode = $('input[name="zipcode"]').val();
+        var mobile = $('input[name="mobile"]').val();
+        var phone1 = /^1[34578]\d{9}$/;
+        var zipcode1 = /^[0-9][0-9]{5}$/;
+            if(consignee==''){
+                layer.alert('收货人不能为空', {icon: 2});
+                return false;
+            }
+            if(!(province > 0)){
+                layer.alert('请选择省份', {icon: 2});
+                return false;
+            }
+            if(!(city > 0)){
+                layer.alert('请选择城市', {icon: 2});
+                return false;
+            }
+            if(!(district > 0)){
+                layer.alert('请选择区域', {icon: 2});
+                return false;
+            }
+            if(address==''){
+                layer.alert('请填写详细地址', {icon: 2});
+                return false;
+            }
+            if(zipcode==''){
+                layer.alert('请填写邮编', {icon: 2});
+                return false;
+            }else if(!zipcode1.test(zipcode)){
+                layer.alert('邮编不正确', {icon: 2});
+                return false;
+            }
+            if(mobile==''){
+                layer.alert('请填写收货人手机号', {icon: 2});
+                return false;
+            }else if(!phone1.test(mobile)){
+                layer.alert('手机号码不正确', {icon: 2});
+                return false;
+            }
+            $.ajax({
+                type:'post',
+                url:"{:url('User/addressUpd')}",
+                data:{
+                    consignee:consignee,
+                    province:province,
+                    city:city,
+                    district:district,
+                    twon:twon,
+                    address:address,
+                    zipcode:zipcode,
+                    mobile:mobile,
+                    address_id:address_id
+                },
+                dataType: 'JSON',
+                success: function(res) {
+                    if (res.code == 1) {
+                        layer.msg(res.msg,{icon:1, time:1000},function() {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.$('.btn-refresh').click();
+                            window.parent.location.reload(); //刷新父页面
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(res.msg,{icon:2, time:1000});
+                    }
+                }
+            })
+            return false;
+        })
+    /**
+     * 获取城市
+     * @param t  省份select对象
+     */
+    function get_city(t){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        $.ajax({
+            type : "GET",
+            url  : "{:url('User/city')}",
+            data:{
+                parent_id:parent_id
+             },
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option value="0">选择城市</option>'+ v.data;
+                $('#city').empty().html(v);
+            }
+        });
+    }
+
+    /**
+     * 获取地区
+     * @param t  城市select对象
+     */
+    function get_area(t){
+        var parent_id = $(t).val();
+        if(!parent_id > 0){
+            return;
+        }
+        $.ajax({
+            type : "GET",
+            url  : "{:url('User/district')}",
+            data:{
+                parent_id:parent_id
+            },
+            error: function(request) {
+                alert("服务器繁忙, 请联系管理员!");
+                return;
+            },
+            success: function(v) {
+                v = '<option>选择区域</option>'+ v.data;
+                $('#district').empty().html(v);
+            }
+        });
+    }
+
+    // 获取最后一级乡镇
+    function get_twon(obj){
+        var parent_id = $(obj).val();
+        $.ajax({
+            type : "GET",
+            url  : "{:url('User/twon')}",
+            data:{
+                parent_id:parent_id
+            },
+            success: function(res) {
+                if(parseInt(res) == 0){
+                    $('#twon').empty().css('display','none');
+                }else{
+                    $('#twon').css('display','inline');
+                    $('#twon').empty().html(res.data);
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

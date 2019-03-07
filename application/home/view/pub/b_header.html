@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{$cfg_title}</title>
+        <meta name="keywords" content="{$cfg_keywrods}"/>
+        <meta name="description" content="B2C商城 B2B2C商城 三级分销 免费商城  微商城 多用户商城 免费开源系统"/>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/index.css"/>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/location.css"/>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/base.css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="__STATIC__/home/images/logo/storeico_default.png" media="screen" />
+
+        <script src="__STATIC__/home/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="__STATIC__/home/js/global.js"></script>
+    </head>
+    <body class="gray_f5">
+        <!--header-s-->
+        <div class="tpshop-tm-hander">
+            <div class="top-hander">
+                <div class="w1430 pr clearfix">
+                    <div class="fl">
+                        {if condition="session('user_info.user_id')"}
+                        <div class="fl">
+                            <a class="red userinfo" href="{:url('User/userIndex')}">{:session('user_info.nickname')}</a>
+                            <a href="{:url('User/logout')}" title="退出" target="_self" style="color:red;">安全退出</a>
+                        </div>
+                        {else /}
+                        <div class="fl">
+                            <a class="red" href="{:url('Login/login')}">登录</a>
+                            <a href="{:url('Reg/reg')}">注册</a>
+                        </div>
+                        {/if}
+                    </div>
+                    <ul class="top-ri-header fr clearfix">
+                        <li><a target="_blank" href="{:url('Order/orderList')}">我的订单</a></li>
+                        <li class="spacer"></li>
+                        <li><a target="_blank" href="#">我的浏览</a></li>
+                        <li class="spacer"></li>
+                        <li><a target="_blank" href="#">我的收藏</a></li>
+                        <li class="spacer"></li>
+                        <li>客户服务</li>
+                        <li class="spacer"></li>
+                        <li class="hover-ba-navdh">
+                            <div class="nav-dh"><span>网站导航</span><i class="share-a_a1"></i></div>
+                            <ul class="conta-hv-nav clearfix">
+                                <li><a href="#">优惠活动</a></li>
+                                <li><a href="#">预售活动</a></li>
+                                <!--<li>
+                                <a href="/Home/Goods/integralMall.html">拍卖活动</a></li>-->
+                                <li><a href="#">兑换中心</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="nav-middan-z w1430 clearfix">
+                <a class="ecsc-logo" href="{:url('Index/index')}">
+                    <img src="__STATIC__/home/upload/logo/2018/03-29/7bc911adcb77eeb297aa5f17c18b41df.png" style="width: 159px;height: 58px;">
+                </a>
+                <!-- 搜索 -->
+                <div class="ecsc-search">
+                    <form id="searchForm" name="" method="get" action="{:url('Goods/search')}" class="ecsc-search-form">
+                        <input autocomplete="off" name="keyword" id="keyword" type="text" value="" class="ecsc-search-input" placeholder="请输入搜索关键字...">
+                        <button type="submit" class="ecsc-search-button">搜索</button>
+                        <div class="candidate p">
+                            <ul id="search_list"></ul>
+                        </div>
+                        <script type="text/javascript">; (function($) {
+                                $.fn.extend({
+                                    donetyping: function(callback, timeout) {
+                                        timeout = timeout || 1e3;
+                                        var timeoutReference, doneTyping = function(el) {
+                                            if (!timeoutReference) return;
+                                            timeoutReference = null;
+                                            callback.call(el);
+                                        };
+                                        return this.each(function(i, el) {
+                                            var $el = $(el);
+                                            $el.is(':input') && $el.on('keyup keypress',
+                                            function(e) {
+                                                if (e.type == 'keyup' && e.keyCode != 8) return;
+                                                if (timeoutReference) clearTimeout(timeoutReference);
+                                                timeoutReference = setTimeout(function() {
+                                                    doneTyping(el);
+                                                },
+                                                timeout);
+                                            }).on('blur',
+                                            function() {
+                                                doneTyping(el);
+                                            });
+                                        });
+                                    }
+                                });
+                            })(jQuery);
+
+                            $('.ecsc-search-input').donetyping(function() {
+                                search_key();
+                            },500).focus(function() {
+                                var search_key = $.trim($('#q').val());
+                                if (search_key != '') {
+                                    $('.candidate').show();
+                                }
+                            });
+                            $('.candidate').mouseleave(function() {
+                                $(this).hide();
+                            });
+
+                            function searchWord(words) {
+                                $('#q').val(words);
+                                $('#searchForm').submit();
+                            }
+                            function search_key() {
+                                var search_key = $.trim($('#q').val());
+                                if (search_key != '') {
+                                    $.ajax({
+                                        type: 'post',
+                                        dataType: 'json',
+                                        data: {
+                                            key: search_key
+                                        },
+                                        url: "/Home/Api/searchKey.html",
+                                        success: function(data) {
+                                            if (data.status == 1) {
+                                                var html = '';
+                                                $.each(data.result,
+                                                function(n, value) {
+                                                    html += '<li onclick="searchWord(\'' + value.keywords + '\');"><div class="search-item">' + value.keywords + '</div><div class="search-count">约' + value.goods_num + '个商品</div></li>';
+                                                });
+                                                html += '<li class="close"><div class="search-count">关闭</div></li>';
+                                                $('#search_list').empty().append(html);
+                                                $('.candidate').show();
+                                            } else {
+                                                $('#search_list').empty();
+                                            }
+                                        }
+                                    });
+                                }
+                            }</script>
+                    </form>
+                    <div class="keyword clearfix">
+                        {foreach $keywords as $val}
+                        <a class="key-item" href="/Home/Goods/search/keyword/{$val.keywords}" target="_blank">{$val.keywords}</a>
+                        {/foreach}
+                        <!-- <a class="key-item" href="/Home/Goods/search/q/%E5%B0%8F%E7%B1%B3.html" target="_blank">小米</a>
+                        <a class="key-item" href="/Home/Goods/search/q/iphone.html" target="_blank">iphone</a>
+                        <a class="key-item" href="/Home/Goods/search/q/%E4%B8%89%E6%98%9F.html" target="_blank">三星</a>
+                        <a class="key-item" href="/Home/Goods/search/q/%E5%8D%8E%E4%B8%BA.html" target="_blank">华为</a>
+                        <a class="key-item" href="/Home/Goods/search/q/%E5%86%B0%E7%AE%B1.html" target="_blank">冰箱</a> -->
+                    </div>
+                </div>
+                <div class="u-g-cart fr" id="hd-my-cart">
+                    <a href="{:url('Cart/index')}">
+                        <div class="c-n fl">
+                            <i class="share-shopcar-index"></i>
+                            <span>我的购物车</span>
+                            {if condition="session('user_info.user_id')"}
+                            <em class="shop-nums" id="cart_quantity">{$num}</em>
+                            {/if}
+                        </div>
+                    </a>
+                    <div class="u-fn-cart" id="show_minicart">
+                        <div class="minicartContent" id="minicart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav w1430 clearfix">
+                <div class="categorys home_categorys">
+                    <div class="dt">
+                        <a href="" target="_blank"><i class="share-a_a2"></i>全部商品分类</a>
+                    </div>
+                    <!--全部商品分类-s-->
+                    <div class="dd">
+                    <div class="cata-nav" id="cata-nav">
+                        {foreach $category1 as $v1}
+                        <div class="item">
+                            <div class="item-left">
+                                <h3 class="cata-nav-name">
+                                    <div class="cata-nav-wrap">
+                                        <a href="/Home/Goods/goodsList?cat_id={$v1.id}" title="手机 、 数码 、 通信">
+                                            {$v1.name}
+                                        </a>
+                                    </div>
+                                    <!--<a href="">手机店</a>-->
+                                </h3>
+                            </div>
+                            <div class="cata-nav-layer">
+                                <div class="cata-nav-left">
+                                    <!-- 如果没有热门分类就隐藏 -->
+                                    <div class="subitems">
+                                    {foreach $category2 as $v2}
+                                    {if condition="$v2.parent_id eq $v1.id"}
+                                        <dl class="clearfix">
+                                            <dt>
+                                                <a href="/Home/Goods/goodsList?cat_id={$v2.id}" target="_blank">
+                                                    {$v2.name}
+                                                </a>
+                                            </dt>
+                                            <dd class="clearfix">
+                                                {foreach $category3 as $v3}
+                                                {if condition="$v3.parent_id eq $v2.id"}
+                                                <a href="/Home/Goods/goodsList?cat_id={$v3.id}" target="_blank">
+                                                    {$v3.name}
+                                                </a>
+                                                {/if}
+                                                {/foreach}
+                                            </dd>
+                                        </dl>
+                                    {/if}
+                                    {/foreach}
+                                    </div>
+                                </div>
+                                <div class="advertisement_down">
+                                    <a href="http://www.tp-shop.cn" target="_blank">
+                                        <img class="w-100" src="__STATIC__/home/public/upload/ad/2017/08-26/ce541437e150a0e4ff8b174602962cf5.png" title="" /></a>
+                                    <a href="http://www.tp-shop.cn" target="_blank">
+                                        <img class="w-100" src="__STATIC__/home/public/upload/ad/2016/04-25/571d89bd99535.jpg" title="" /></a>
+                                    <a href="http://www.tp-shop.cn" target="_blank">
+                                        <img class="w-100" src="__STATIC__/home/public/upload/ad/2016/04-25/571d8b39793fb.jpg" title="" /></a>
+                                </div>
+                                <a href="http://www.tp-shop.cn" class="cata-nav-rigth" target="_blank">
+                                    <img class="w-100" src="__STATIC__/home/public/upload/ad/2017/08-26/b06ed7e423787cc91b0f31e15ca52a10.jpg" title="" /></a>
+                            </div>
+                        </div>
+                        {/foreach}
+                    </div>
+                    <script>
+                        $('#cata-nav').find('.item').hover(function(){
+                                    $(this).addClass('nav-active').siblings().removeClass('nav-active');
+                                },
+                                function() {
+                                    $(this).removeClass('nav-active');
+                                })
+                    </script>
+                </div>
+                    <!--全部商品分类-e-->
+                </div>
+                <ul class="navitems clearfix" id="navitems">
+                    <li class="selected"><a href="/home/Index/index.html">首页</a></li>
+                    <li><a href="#" target="_blank">手机城</a></li>
+                    <li><a href="#" target="_blank">珠宝</a></li>
+                    <li><a href="#" target="_blank">家电城</a></li>
+                    <li><a href="#">促销商品</a></li>
+                    <li><a href="#" target="_blank">预售</a></li>
+                    <li><a href="#" target="_blank">数码城</a></li>
+                    <li><a href="#">团购</a></li>
+                    <li><a href="#">积分商城</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--header-e-->

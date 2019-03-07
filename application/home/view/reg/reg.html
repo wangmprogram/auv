@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>注册-B2C商城 | B2B2C商城 | 三级分销 | 免费商城 | 多用户商城 | tpshop｜thinkphp shop｜TPshop 免费开源系统 | 微商城</title>
+        <meta name="keywords" content="B2C商城  B2B2C商城  三级分销  多用户商城  免费商城  微商城" />
+        <meta name="description" content="B2C商城 B2B2C商城 三级分销 免费商城  微商城 多用户商城 免费开源系统" />
+        <link href="__STATIC__/home/css/reg3.css" rel="stylesheet" type="text/css"/>
+        <link href="__STATIC__/home/css/base.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/tpshop.css" />
+        <script src="__STATIC__/home/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="__STATIC__/home/js/layer/layer.js"></script>
+        <!--弹窗js 参考文档 http://layer.layui.com/-->
+        <script src="__STATIC__/home/js/global.js"></script>
+    </head>
+    <body>
+        <div class="regcon">
+            <a class="m-fnlogoa fn-fl" href="/">
+                <img src="__STATIC__/home/upload/logo/2018/03-29/7bc911adcb77eeb297aa5f17c18b41df.png" style="width: 159px;height: 58px;" />
+            </a>
+            <span class="m-fntit">欢迎注册</span>
+            <div class="ui_tab">
+                <ul class="ui_tab_nav regnav">
+                    <li class="uli active "><a href="/index.php/Home/User/reg.html">手机注册</a></li>
+                    <li class="uli  "><a href="/index.php/Home/User/reg/t/email.html">邮箱注册</a></li>
+                    <li class="no fn-fr loginbtn">我已注册，马上<a href="{:url('Login/login')}">登录></a></li>
+                </ul>
+                <form id="reg_form2" method="post" >
+                    <input type="hidden" name="" value="1">
+                    <div class="ui_tab_content">
+                        <div class="m-fnbox ui_panel" style="display: block;">
+                            <div class="fnlogin clearfix">
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">手机号码：</span></label>
+                                    <div class="liner">
+                                        <input type="text" class="inp fmobile J_cellphone" placeholder="请输入手机号码"
+                                               name="phone"  id="phone"  /></div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">用户昵称：</span></label>
+                                    <div class="liner">
+                                        <input type="text" class="inp fmobile J_cellphone" placeholder="请输入用户昵称"
+                                               name="nickname"  id="nickname"  /></div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">设置密码：</span></label>
+                                    <div class="liner">
+                                        <input type="password" class="inp fpass J_password" placeholder="6-16位大小写英文字母、数字或符号的组合" autocomplete="off" maxlength="16" id="password" name="password" value="" /></div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">确认密码：</span></label>
+                                    <div class="liner">
+                                        <input type="password" class="inp fsecpass J_password2" placeholder="请再次输入密码" autocomplete="off" maxlength="16" id="password2" name=""  value="" /></div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">邮箱：</span></label>
+                                    <div class="liner">
+                                        <input type="text" class="inp fmobile J_cellphone" placeholder="请输入邮箱" id="email" name="email" /></div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">QQ：</span></label>
+                                    <div class="liner">
+                                        <input type="text" class="inp fmobile J_cellphone" placeholder="请输入QQ号"
+                                               name="qq" id="qq"/></div>
+                                </div>
+                                <div class="line">
+                                    <label class="linel">
+                                        <span class="dt">性别：</span>
+                                    </label>
+                                    <div class="liner" style="margin-left:20px;margin-top:10px">
+                                            <input name="sex" type="radio" id="sex-3" value="0" class="sex" checked>
+                                            <label for="sex-3">保密</label>
+                                            <input name="sex" type="radio" value="1" id="sex-1" class="sex">
+                                            <label for="sex-1">男</label>
+                                            <input type="radio" id="sex-2" value="2" name="sex" class="sex">
+                                            <label for="sex-2">女</label>
+                                    </div>
+                                </div>
+                                <div class="line liney clearfix">
+                                    <label class="linel">&nbsp;</label>
+                                    <div class="liner">
+                                        <div class="clearfix checkcon">
+                                            <p class="fn-fl checktxt">
+                                                <input type="checkbox" class="iyes fn-fl J_protocal" checked />
+                                                <span class="fn-fl">我已阅读并同意</span>
+                                                <a class="itxt fn-fl" href="/index.php/Home/Article/detail/article_id/1415.html" target="_blank">《最好的B2B2C商城服务协议》</a>
+                                            </p>
+                                            <p class="fn-fl errorbox v-txt" id="protocalBox"></p>
+                                        </div>
+                                        <!--<a class="regbtn J_btn_agree" href="javascript:void(0);" name="sub">同意协议并注册</a>-->
+                                        <input type="submit" name="" id="" class="regbtn J_btn_agree" value="同意协议并注册">
+                                        <p class="v-txt" id="err_check_code">
+                                            <span class="fnred">请勾选</span>我已阅读并同意
+                                            <a class="itxt" href="/index.php/Home/Article/detail/article_id/1415.html" target="_blank">《最好的B2B2C商城服务协议》</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        <!--footer-s-->
+        <div class="footer p">
+            <div class="tpshop-service">
+                <ul class="w1224 clearfix">
+                    <li>
+                        <i class="ico ico-day7"></i>
+                        <p class="service">7天无理由退货</p>
+                    </li>
+                    <li>
+                        <i class="ico ico-day15"></i>
+                        <p class="service">15天免费换货</p>
+                    </li>
+                    <li>
+                        <i class="ico ico-quality"></i>
+                        <p class="service">正品行货 品质保障</p>
+                    </li>
+                    <li>
+                        <i class="ico ico-service"></i>
+                        <p class="service">专业售后服务</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <div class="w1224 clearfix" style="padding-bottom: 10px;">
+                    <div class="left-help-list">
+                        <div class="help-list-wrap clearfix">
+                            <dl>
+                                <dt>购物指南</dt>
+                                <dd><a href="/Home/Article/detail/article_id/5.html">会员修改密码</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/6.html">修改个人资料</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/7.html">会员等级</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/8.html">常见问题</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/22.html">修改收货地址</a></dd>
+                            </dl>
+                            <dl>
+                                <dt>售后服务</dt>
+                                <dd><a href="/Home/Article/detail/article_id/14.html">售后政策</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/15.html">退换货流程</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/16.html">退款说明</a></dd>
+                                <dd> <a href="/Home/Article/detail/article_id/17.html">取消订单</a></dd>
+                            </dl>
+                            <dl>
+                                <dt>新手上路</dt>
+                                <dd><a href="/Home/Article/detail/article_id/1.html">新用户注册</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/2.html">积分细则</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/3.html">忘记密码</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/4.html">如何搜索</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/23.html">积分兑换说明</a></dd>
+                            </dl>
+                            <dl>
+                                <dt>支付方式</dt>
+                                <dd><a href="/Home/Article/detail/article_id/9.html">银联支付</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/10.html">支付宝支付</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/11.html">微信支付</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/12.html">余额支付</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/13.html">分期付款</a></dd>
+                            </dl>
+                            <dl>
+                                <dt>配送方式</dt>
+                                <dd><a href="/Home/Article/detail/article_id/18.html">免运费政策</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/19.html">物流查询</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/20.html">上门自提</a></dd>
+                                <dd><a href="/Home/Article/detail/article_id/21.html">配送服务承诺</a></dd>
+                            </dl>
+                        </div>
+                        <div class="friendship-links clearfix">
+                            <span>友情链接 :</span>
+                            <div class="links-wrap-h clearfix">
+                                <a href="http://www.taobao.com" target="_blank">淘宝商城</a>
+                                <a href="http://www.tmall.com" target="_blank">天猫商城</a>
+                                <a href="http://www.jd.com" target="_blank">京东商城</a>
+                                <a href="http://www.gome.com.cn" target="_blank">国美商城</a>
+                                <a href="https://www.suning.com" target="_blank">苏宁易购</a>
+                                <a href="http://www.yhd.com" target="_blank">1号点</a>
+                                <a href="https://www.mi.com" target="_blank">小米商城</a>
+                                <a href="https://www.hc360.com" target="_blank">慧聪网</a>
+                                <a href="https://www.1688.com" target="_blank">阿里巴巴</a>
+                                <a href="https://store.meizu.com" target="_blank">魅族商城</a>
+                                <a href="https://www.vmall.com" target="_blank">华为商城</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-contact-us">
+                        <h3 class="title">联系我们</h3>
+                        <span class="phone">123456789</span>
+                        <p class="tips">周一至周日8:00-18:00<br />(仅收市话费)</p>
+                    </div>
+                </div>
+                <div class="mod_copyright p">
+                    <div class="grid-top">
+                        <!-- <a href="javascript:void (0);">关于我们</a><span>|</span>
+                        <a href="javascript:void (0);">联系我们</a><span>|</span>
+                        <a href="/Home/Article/detail/article_id/18.html">免运费政策</a><span>|</span>
+                        <a href="/Home/Article/detail/article_id/19.html">物流查询</a><span>|</span>
+                        <a href="/Home/Article/detail/article_id/20.html">上门自提</a><span>|</span>
+                        <a href="/Home/Article/detail/article_id/21.html">配送服务承诺</a><span>|</span> -->
+                    </div>
+                    <p>Copyright © 2016-2025 最好的B2B2C商城 版权所有 保留一切权利 备案号:粤12345678号</p>
+                    <p class="mod_copyright_auth">
+                        <a class="mod_copyright_auth_ico mod_copyright_auth_ico_1" href="" target="_blank">经营性网站备案中心</a>
+                        <a class="mod_copyright_auth_ico mod_copyright_auth_ico_2" href="" target="_blank">可信网站信用评估</a>
+                        <a class="mod_copyright_auth_ico mod_copyright_auth_ico_3" href="" target="_blank">网络警察提醒你</a>
+                        <a class="mod_copyright_auth_ico mod_copyright_auth_ico_4" href="" target="_blank">诚信网站</a>
+                        <a class="mod_copyright_auth_ico mod_copyright_auth_ico_5" href="" target="_blank">中国互联网举报中心</a>
+                    </p>
+                </div>
+            </div>
+            <style type="text/javascript">
+                .mod_copyright { border-top: 1px solid #EEEEEE; } .grid-top { margin-top: 20px; text-align: center; } .grid-top span { margin: 0 10px; color: #ccc; } .mod_copyright > p { margin-top: 10px; color: #666; text-align: center; } .mod_copyright_auth_ico { overflow: hidden; display: inline-block; margin: 0 3px; width: 103px; height: 32px; background-image: url(./public/images/ico_footer.png); line-height: 1000px; } .mod_copyright_auth_ico_1 { background-position: 0 -151px; } .mod_copyright_auth_ico_2 { background-position: -104px -151px; } .mod_copyright_auth_ico_3 { background-position: 0 -184px; } .mod_copyright_auth_ico_4 { background-position: -104px -184px; } .mod_copyright_auth_ico_5 { background-position: 0 -217px; }
+            </style>
+        </div>
+        <!--footer-e-->
+        <script type="text/javascript">
+            $("#reg_form2").submit(function(){
+                var nickname = $('#nickname').val();
+                var password2 = $('#password2').val();
+                var email = $('#email').val();
+                var password = $('#password').val();
+                var qq = $('#qq').val();
+                var phone = $('#phone').val();
+                var sex = $('input[name="sex"]:checked').val();
+//                console.log(phone);
+//                return false;
+                var nickname1 = /^([a-zA-Z0-9]){6,12}$/;
+                var phone1 = /^1[34578]\d{9}$/;
+                var email1 = /^.+@.+\..+$/;
+                var qq1 = /^([0-9]){6,10}$/;
+                if(phone == ''){
+                    layer.tips('电话不能为空!', '#phone');
+                    return false;
+                }else if(!phone1.test(phone)){
+                    layer.tips('电话格式不正确!', '#phone');
+                    return false;
+                }
+                if(nickname == ''){
+                    layer.tips('用户名不能为空!', '#nickname');
+                    return false;
+                }else if(!nickname1.test(nickname)){
+                    layer.tips('用户名格式不正确!', '#nickname');
+                    return false;
+                }
+                if(password == ''){
+                    layer.tips('密码不能为空!', '#password');
+                    return false;
+                }else if(!nickname1.test(password)){
+                    layer.tips('密码格式不正确!', '#password');
+                    return false;
+                }
+                if(password2!=password){
+                    layer.tips('两次输入的密码不相同!', '#password2');
+                    return false;
+                }
+                if(email == ''){
+                    layer.tips('邮箱不能为空!', '#email');
+                    return false;
+                }else if(!email1.test(email)){
+                    layer.tips('邮箱格式不正确!', '#email');
+                    return false;
+                }
+                if(qq == ''){
+                    layer.tips('qq不能为空!', '#qq');
+                    return false;
+                }else if(!qq1.test(qq)){
+                    layer.tips('qq格式不正确!', '#qq');
+                    return false;
+                }
+                //layer.msg('123', {icon:1, time:1000});
+                $.ajax({
+                    type: 'post',
+                    url: '{:url("Reg/reg")}',
+                    data:{
+                        nickname:nickname,
+                        email:email,
+                        password :password,
+                        qq:qq,
+                        phone:phone,
+                        sex:sex
+                    },
+                    dataType: 'json',
+                    success: function (data){
+                        if(data.code == 1){
+                            layer.msg(data.msg,{icon:1, time:1000},function(){
+                                window.location.href = data.url;
+                            });
+                        }else{
+                            layer.msg(data.msg,{icon:2, time:1000});
+                        }
+                    }
+                });
+                return false;
+            })
+        </script>
+    </body>
+</html>

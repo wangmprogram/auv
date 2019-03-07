@@ -1,0 +1,494 @@
+{include file="pub\b_header"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/tpshop.css" />
+<style>
+    @media screen and (min-width:1260px) and (max-width: 1465px) { .w1430{width: 1224px;} } @media screen and (max-width: 1260px) { .w1430{width: 983px;} }
+</style>
+<script src="__STATIC__/home/js/pc_common.js"></script>
+<script src="__STATIC__/home/js/layer/layer.js"></script>
+<!-- 筛选 end -->
+<div class="shop-list-tour ma-to-20 p">
+    <div class="w1430">
+        <div class="tjhot fl">
+            <div class="sx_topb">
+                <h3>推荐热卖</h3></div>
+            <div class="tjhot-shoplist" id="ajax_hot_goods">
+                {foreach $hots as $hot}
+                <div class="alone-shop">
+                    <a href="/Home/Goods/goodsDetials?goods_id={$hot.goods_id}">
+                        <img class="lazy" src="__STATIC__/home{$hot.original_img}"  /></a>
+                    <p class="line-two-hidd">
+                        <a href="/Home/Goods/goodsDetials?goods_id={$hot.goods_id}">{$hot.goods_name}</a></p>
+                    <p class="price-tag">
+                        <span class="li_xfo">￥</span>
+                        <span>{$hot.shop_price}</span></p>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+        <div class="stsho fr">
+            <div class="sx_topb ba-dark-bg">
+                <div class="f-sort fl">
+                    <ul>
+                       <!--  <li class="red">
+                            <a href="/index.php/Home/Goods/goodsList/id/123">综合</a></li>
+                        <li class="">
+                            <a href="/index.php/Home/Goods/goodsList/id/123/sort/sales_sum">销量</a></li>
+                        <li class="">
+                            <a href="/index.php/Home/Goods/goodsList?">价格
+                                <i class="litt-zzx1"></i></a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="shop-list-splb p">
+                <ul>
+                    {if condition="count($datas) eq 0"}
+                    <h2 style="text-align: center;">无满足搜索结果</h2>
+                    {else/}
+                    {foreach $datas as $good}
+                    <li>
+                        <div class="s_xsall">
+                            <div class="xs_img">
+                                <a href="/index.php/Home/Goods/goodsDetials/goods_id/{$good.goods_id}">
+                                    <img class="lazy-list" src="__STATIC__/home{$good.original_img}"
+                                    /></a>
+                            </div>
+                            <div class="xs_slide">
+                                <div class="small-xs-shop">
+                                    <ul>
+                                        {foreach $image as $imgs}
+                                        {if condition="$good.goods_id eq $imgs.goods_id"}
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <img class="lazy-list" src="__STATIC__/home{$imgs.image_url}" /></a>
+                                        </li>
+                                        {/if}
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="price-tag">
+                                        <span class="now">
+                                            <em class="li_xfo">￥</em>
+                                            <em>{$good.shop_price}</em></span>
+                                        <span class="old">
+                                            <em>￥</em>
+                                            <em>{$good.market_price}</em></span>
+                            </div>
+                            <div class="shop_name2">
+                                <a href="/Home/Goods/goodsDetials?goods_id={$hot.goods_id}">{$good.goods_name}</a></div>
+                            <div class="J_btn_statu">
+                                <div class="p-num">
+                                    <input class="J_input_val" id="number_{$good.goods_id}" type="text"
+                                           value="1">
+                                    <p class="act">
+                                        <a href="javascript:void(0);" onClick="goods_add({$good.goods_id});" class="litt-zzyl1"></a>
+                                        <a href="javascript:void(0);" onClick="goods_cut({$good.goods_id});" class="litt-zzyl2"></a>
+                                    </p>
+                                </div>
+                                <div class="p-btn">
+                                    <a href="javascript:void(0);"
+                                       onclick="AjaxAddCart(46,$('#number_'+{$good.goods_id}).val());">加入购物车
+                                    </a></div>
+                            </div>
+                        </div>
+                    </li>
+                    {/foreach}
+                    {/if}
+                </ul>
+            </div>
+            <div class="page p">
+                <div class='dataTables_paginate paging_simple_numbers'>
+                    <ul class='pagination'></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="underheader-floor p specilike">
+    <div class="w1430">
+        <div class="layout-title">
+            <span class="fl">猜你喜欢</span>
+            <span class="update_h fr" onclick="favourite();"><i class="litt-hyh"></i>换一换</span>
+        </div>
+        <ul class="ul-li-column p" id="favourite_goods"></ul>
+    </div>
+</div>
+{include file="pub/footer"}
+<script>
+    /****猜你喜欢****/
+    var favorite_page = 0;
+    function favourite() {
+        favorite_page++;
+        $.ajax({
+            type: "GET",
+            url: "/home/Goods/ajax_favorite",
+            data:{'p':favorite_page},
+            //+tab,
+            success: function(data) {
+                if (data == '' && favorite_page > 1) {
+                    favorite_page = 0;
+                    favourite();
+                } else {
+                    $('#favourite_goods').html(data);
+                    lazy_ajax();
+                }
+
+            }
+        });
+    }
+</script>
+<!--footer-s-->
+
+<!--footer-e-->
+<div class="soubao-sidebar">
+    <div class="soubao-sidebar-bg"></div>
+    <div class="sidertabs tab-lis-1">
+        <div class="sider-top-stra sider-midd-1">
+            <div class="icon-tabe-chan">
+                <a href="/index.php/Home/User/index.html">
+                    <i class="share-side share-side1"></i>
+                    <i class="share-side tab-icon-tip triangleshow"></i>
+                </a>
+                <div class="dl_login">
+                    <div class="hinihdk">
+                        <img src="__STATIC__/home/public/images/dl.png" />
+                        <p class="loginafter nologin">
+                            <span>你好，请先</span>
+                            <a href="/index.php/Home/user/login.html">登录！</a>
+                        </p>
+                        <!--未登录-e--->
+                        <!--登录后-s--->
+                        <p class="loginafter islogin">
+                            <span class="id_jq userinfo">陈xxxxxxx</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <a href="/index.php/Home/user/logout.html" title="点击退出">退出！</a>
+                        </p>
+                        <!--未登录-s--->
+                    </div>
+                </div>
+            </div>
+            <div class="icon-tabe-chan shop-car">
+                <a href="javascript:void(0);" onclick="ajax_side_cart_list()">
+                    <div class="tab-cart-tip-warp-box">
+                        <div class="tab-cart-tip-warp">
+                            <i class="share-side share-side1"></i>
+                            <i class="share-side tab-icon-tip"></i>
+                            <span class="tab-cart-tip">购物车</span>
+                            <span class="tab-cart-num J_cart_total_num" id="tab_cart_num">0</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="icon-tabe-chan massage">
+                <a href="/index.php/Home/User/message_notice.html" target="_blank">
+                    <i class="share-side share-side1"></i>
+                    <!--<i class="share-side tab-icon-tip"></i>-->
+                    <span class="tab-tip">消息</span>
+                </a>
+            </div>
+        </div>
+        <div class="sider-top-stra sider-midd-2">
+            <div class="icon-tabe-chan mmm">
+                <a href="/index.php/Home/User/goods_collect.html" target="_blank">
+                    <i class="share-side share-side1"></i>
+                    <!--<i class="share-side tab-icon-tip"></i>-->
+                    <span class="tab-tip">收藏</span>
+                </a>
+            </div>
+            <div class="icon-tabe-chan hostry">
+                <a href="/index.php/Home/User/visit_log.html" target="_blank">
+                    <i class="share-side share-side1"></i>
+                    <!--<i class="share-side tab-icon-tip"></i>-->
+                    <span class="tab-tip">足迹</span>
+                </a>
+            </div>
+            <!--<div class="icon-tabe-chan sign">-->
+            <!--<a href="" target="_blank">-->
+            <!--<i class="share-side share-side1"></i>-->
+            <!--&lt;!&ndash;<i class="share-side tab-icon-tip"></i>&ndash;&gt;-->
+            <!--<span class="tab-tip">签到</span>-->
+            <!--</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="sidertabs tab-lis-2">
+        <div class="icon-tabe-chan advice">
+            <a title="点击这里给我发消息" href="tencent://message/?uin=123456789&amp;Site=TPshop商城&amp;Menu=yes" target="_blank">
+                <i class="share-side share-side1"></i>
+                <!--<i class="share-side tab-icon-tip"></i>-->
+                <span class="tab-tip">在线咨询</span>
+            </a>
+        </div>
+        <div class="icon-tabe-chan request">
+            <a href="" target="_blank">
+                <i class="share-side share-side1"></i>
+                <!--<i class="share-side tab-icon-tip"></i>-->
+                <span class="tab-tip">意见反馈</span>
+            </a>
+        </div>
+        <div class="icon-tabe-chan qrcode">
+            <a href="" target="_blank">
+                <i class="share-side share-side1"></i>
+                <i class="share-side tab-icon-tip triangleshow"></i>
+                        <span class="tab-tip qrewm">
+                            <img src="__STATIC__/home/public/images/qrcode.png" />扫一扫下载APP
+                        </span>
+            </a>
+        </div>
+        <div class="icon-tabe-chan comebacktop">
+            <a href="" target="_blank">
+                <i class="share-side share-side1"></i>
+                <!--<i class="share-side tab-icon-tip"></i>-->
+                <span class="tab-tip">返回顶部</span>
+            </a>
+        </div>
+    </div>
+    <div class="shop-car-sider"></div>
+</div>
+<script src="__STATIC__/home/public/js/common.js"></script>
+<!--footer-e-->
+<script src="__STATIC__/home/public/js/lazyload.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/public/js/popt.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/home/public/js/headerfooter.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    // 更多
+    $('.gd_more').parent().click(function() {
+        var jed = $(this).parents('.lr-more').siblings();
+        jed.toggleClass('ov-inh').find('.brand-box').toggleClass('ov-inh');
+        if (jed.toggleClass('ov-inh').find('.brand-list')) {
+            jed.toggleClass('ov-inh').find('.brand-list').toggleClass('ov-inh');
+        }
+        if (jed.hasClass('ov-inh')) {
+            $(this).find('.gd_more').html('收起');
+        } else {
+            $(this).find('.gd_more').html('更多');
+        }
+    });
+    var cancelBtn = null;
+    /***多选 start*****/
+    $('.dx_choice').parent().click(function() {
+        var _this = this;
+        var st = 0;
+        var jed = $(_this).parents('.ri-section'); //当前选项层DIV
+        //关闭前一个多选框
+        if (cancelBtn != null) {
+            $(cancelBtn).parent().siblings('.clearfix').find('a').each(function(i, o) {
+                $(o).removeClass('addhover-js').find('.litt-zd').hide(); //针对品牌筛选的红色边框和右下角对勾隐藏
+                $(o).removeClass('red_hov_cli') //针对纯文字型选项，隐藏筛选的选中状态
+                        .attr('href', $(o).data('href')) //还原连接
+                        .children('input').prop('checked', false).hide(); //隐藏多选框
+                $(o).unbind('click');
+            });
+            $(cancelBtn).parents('.lf-list').siblings('.lr-more').show(); //显示其它多选按钮
+            $(cancelBtn).parents('.ri-section').removeClass('sum_ov_inh'); //移除多选样式
+        }
+        cancelBtn = jed.find('.u-cancel'); //前一个取消按钮
+        //打开多选
+        jed.addClass('sum_ov_inh'); //添加这一行的样式
+        //遍历a标签
+        jed.find('.clearfix>a').each(function(i, o) {
+            $(o).attr('href', 'javascript:;'); //移除连接
+            $(o).children('input').show(); //显示多选框
+            $(o).bind('click',
+                    function() {
+                        if ($(o).hasClass('red_hov_cli')) {
+                            //取消选中
+                            $(o).find('i').toggle();
+                            $(o).removeClass('addhover-js'); //针对品牌选项，改变筛选的选中状态
+                            $(o).removeClass('red_hov_cli');
+                            $(o).children('input').prop("checked", false);
+                            $(o).parent().siblings('.surclofix').children('.u-confirm').removeClass('u-confirm01');
+                            st--;
+                        } else {
+                            $(o).addClass('red_hov_cli');
+                            $(o).children('input').prop("checked", true);
+                            $(o).find('i').toggle();
+                            $(o).addClass('addhover-js');
+                            $(o).parent().siblings('.surclofix').children('.u-confirm').addClass('u-confirm01');
+                            st++;
+                        }
+                        //如果没有选中项,确定按钮点不了
+                        if (st == 0) {
+                            jed.find('.u-confirm').disabled = true;
+                        }
+                    });
+        });
+        //隐藏当前多选按钮
+        $(_this).parent().hide();
+    });
+
+    /***多选 end*****/
+        //############   取消多选        ###########
+    $('.surclofix .u-cancel').each(function() {
+        $(this).click(function() {
+            var jed = $(this).parents('.ri-section');
+            //遍历a标签
+            jed.find('.clearfix>a').each(function(i, o) {
+                $(o).removeClass('addhover-js').find('.litt-zd').hide(); //针对品牌筛选的红色边框和右下角对勾隐藏
+                $(o).removeClass('red_hov_cli') //针对纯文字型选项，隐藏筛选的选中状态
+                        .attr('href', $(o).data('href')) //还原连接
+                        .children('input').prop('checked', false).hide(); //隐藏多选框
+                $(o).unbind('click');
+            });
+            jed.find('.lr-more').show(); //显示多选按钮
+            jed.removeClass('sum_ov_inh') //移除这一行的样式
+            $('.u-confirm').removeClass('u-confirm01'); //移除确定按钮可点击标识
+        });
+    })
+
+    $(function() {
+        favourite();
+        //左侧边栏JS
+        //      ajax_hot_goods();
+        //      ajax_sales_goods();
+        //############   更多类别属性筛选  start     ###########
+        $('.moreamore').click(function() {
+            $('.m-tr').each(function(i, o) {
+                if (i > 7) {
+                    var attrdisplay = $(o).css('display');
+                    if (attrdisplay == 'none') {
+                        $(o).css('display', 'block');
+                    }
+                    if (attrdisplay == 'block') {
+                        $(o).css('display', 'none');
+                    }
+                }
+            });
+            if ($(this).hasClass('checked')) {
+                $(this).removeClass('checked').html('<a class="red">收起</a>');
+            } else {
+                $(this).addClass('checked').html('<a >更多选项</a>');
+            }
+        });
+        $('.moreamore').trigger('click').html('<a >更多选项</a>'); //  默认点击一下
+        //############   更多类别属性筛选   end    ###########
+        /***价格排序 start*****/
+        var price_i = 0;
+        $('.f-sort ul li').click(function() {
+            $(this).addClass('red').siblings().removeClass('red').find('i').removeClass('litt-zzx2').removeClass('litt-zzx3').addClass('litt-zzx1');
+            var jd = $(this).find('i');
+            price_i++;
+            if (price_i > 2) price_i = 1;
+            switch (price_i) {
+                case 1:
+                    jd.addClass('litt-zzx2').removeClass('litt-zzx1').removeClass('litt-zzx3');
+                    break;
+                case 2:
+                    jd.addClass('litt-zzx3').removeClass('litt-zzx2').removeClass('litt-zzx1');
+                    break;
+            }
+        })
+        /***价格排序 end*******/
+        /***地址选择 start*****/
+        $("#city").click(function(e) {
+            SelCity(this, e);
+        });
+        /***地址选择 end*****/
+        /***是否自营 start****/
+        $('.choice-mo-shop ul li').click(function() {
+            $(this).find('.litt-zzdg1').toggleClass('litt-zzdg2');
+            $(this).find('a').toggleClass('red');
+        })
+        /***是否自营 end****/
+        /***滑过浏览商品 start***/
+        $('.small-xs-shop ul li').hover(function() {
+                    $(this).addClass('bored').siblings().removeClass('bored');
+                    var small_src = $(this).find('img').attr('src');
+                    $(this).parents('.s_xsall').find('.xs_img').find('img').attr('src', small_src);
+                },
+                function() {
+
+                })
+        /***滑过浏览商品 end***/
+    })
+
+    /****加减购物车数额***/
+    function goods_cut($val) {
+        var num_val = document.getElementById('number_' + $val);
+        var new_num = num_val.value;
+        var Num = parseInt(new_num);
+        if (Num > 1) Num = Num - 1;
+        num_val.value = Num;
+    }
+
+    function goods_add($val) {
+        var num_val = document.getElementById('number_' + $val);
+        var new_num = num_val.value;
+        var Num = parseInt(new_num);
+        Num = Num + 1;
+        num_val.value = Num;
+    }
+    /****加减购物车数额***/
+
+        //############   点击多选确定按钮      ############
+        // t 为类型  是品牌 还是 规格 还是 属性
+        // btn 是点击的确定按钮用于找位置
+    get_parment = {
+        "m": "Home",
+        "c": "Goods",
+        "a": "goodsList",
+        "id": "123"
+    };
+    function submitMoreFilter(t, btn) {
+        // 没有被勾选的时候
+        if (!$(btn).hasClass("u-confirm01")) {
+            return false;
+        }
+
+        // 获取现有的get参数
+        var key = ''; // 请求的 参数名称
+        var val = new Array(); // 请求的参数值
+        $(btn).parent().siblings(".clearfix").find(".red_hov_cli").each(function(i, o) {
+            key = $(o).data('key');
+            val.push($(o).data('val'));
+        });
+        //parment = key+'_'+val.join('_');
+        //        return false;
+        // 品牌
+        if (t == 'brand') {
+            get_parment.brand_id = val.join('_');
+        }
+        // 规格
+        if (t == 'spec') {
+            if (get_parment.hasOwnProperty('spec')) {
+                get_parment.spec += '@' + key + '_' + val.join('_');
+            } else {
+                get_parment.spec = key + '_' + val.join('_');
+            }
+        }
+        // 属性
+        if (t == 'attr') {
+            if (get_parment.hasOwnProperty('attr')) {
+                get_parment.attr += '@' + key + '_' + val.join('_');
+            } else {
+                get_parment.attr = key + '_' + val.join('_');
+            }
+        }
+        // 组装请求的url
+        var url = '';
+        for (var k in get_parment) {
+            url += "&" + k + '=' + get_parment[k];
+        }
+        console.log('get_parment', get_parment);
+        location.href = "/index.php?m=Home&c=Goods&a=goodsList" + url;
+    }
+    //媒体查询
+    /*$(function(){
+     window.onresize=resizeauto;
+     resizeauto();
+     function resizeauto(){
+     var windowW = $(window).width();
+     if(windowW > 1447){
+     $('.w1430,.w1224,.w1000').addClass('w1430').removeClass('w1224').removeClass('w1000');
+     }else if(windowW <= 1447 && windowW > 1241){
+     $('.w1430,.w1224,.w1000').addClass('w1224').removeClass('w1430').removeClass('w1000');
+     }else if(windowW <= 1241){
+     $('.w1430,.w1224,.w1000').addClass('w1000').removeClass('w1224').removeClass('w1430');
+     }
+     }
+     })*/
+</script>
+</body>
+
+</html>

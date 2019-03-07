@@ -1,0 +1,188 @@
+        {include file="pub/u_header"}
+        <div class="home-index-middle">
+            <div class="w1224">
+                <div class="g-crumbs">
+                    <a href="/index.php/Home/User/index.html">我的商城</a>
+                    <i class="litt-xyb"></i>
+                    <span>个人信息</span></div>
+                <div class="home-main">
+                    <div class="le-menu fl">
+                        <div class="menu-ul">
+                            <ul>
+                                <li class="ma"><i class="account-acc1"></i>交易中心</li>
+                                <li><a href="{:url('Order/orderList')}">我的订单</a></li>
+                                <li><a href="{:url('Order/commentList')}">我的评价</a></li>
+                            </ul>
+                            <ul>
+                                <li class="ma"><i class="account-acc4"></i>个人中心</li>
+                                <li><a href="{:url('User/userUserinfo')}">个人信息</a></li>
+                                <li><a href="{:url('User/userAddressList')}">地址管理</a></li>
+                                <li><a href="{:url('User/safety')}">安全设置</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ri-menu fr">
+                        <div class="menumain p">
+                            <div class="goodpiece">
+                                <h1>个人信息</h1>
+                            </div>
+                            <div class="personerinfro">
+                                <form id="userupdate" method="post" enctype="multipart/form-data">
+                                    <ul class="hend_jz">
+                                        <li class="infor_wi_le"><a href="javascript:void(0);">头像：</a></li>
+                                        <li class="infor_img">
+                                            <a href="javascript:void(0);">
+                                                {if condition="$info['head_pic']==''"}
+                                                <img id="preview" src="__STATIC__/uploads/pers.png"/>
+                                                {else/}
+                                                <img  id="preview" src="__STATIC__/uploads/{$info.head_pic}"/>
+                                                {/if}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="name_jz">
+                                        <li class="infor_wi_le"><a href="javascript:void(0);">更换头像：</a></li>
+                                        <div class="formControls col-xs-8 col-sm-9">
+                                            <button type="button" class="layui-btn" id="head_pic" name="but">
+                                                <i class="layui-icon">&#xe67c;</i>上传图片
+                                            </button>
+                                        </div>
+                                    </ul>
+                                    <ul class="name_jz">
+                                        <li class="infor_wi_le"><a href="javascript:void(0);">昵称：</a></li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <input class="name_zjxs" type="text" name="nickname" id="nickname"
+                                                       value="{$info.nickname}" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="sex_jz">
+                                        <li class="infor_wi_le"><a href="javascript:void(0);">性别：</a></li>
+                                        <li>
+                                            <a href="javascript:void(0);">
+                                                <input type="radio" name="sex" id="secret" {if
+                                                       condition="$info['sex']==0"} checked {/if}
+                                                       value="0" />
+                                                <label for="secret">保密</label>
+                                                <input type="radio" name="sex" id="man" {if
+                                                       condition="$info['sex']==1"} checked {/if} value="1" />
+                                                <label for="man">男</label>
+                                                <input type="radio" name="sex" id="woman" {if
+                                                       condition="$info['sex']==2"} checked {/if} value="2" />
+                                                <label for="woman">女</label>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!--<ul class="name_jz">-->
+                                        <!--<li class="infor_wi_le"><a href="javascript:void(0);">生日：</a></li>-->
+                                        <!--<li>-->
+                                            <!--<a href="javascript:void(0);">-->
+                                                <!--&lt;!&ndash; 注意: 这里用 laydate日历插件 &ndash;&gt;-->
+                                                <!--<input type="text" class="name_zjxs" name="birthday" id="birthday"-->
+                                                       <!--value="{$info.birthday}"/>-->
+                                            <!--</a>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                    <ul class="hobby_jz">
+                                        <li class="infor_wi_le"></li>
+                                        <li class="infor_wi_ri">
+                                            <div class="careful">
+                                                <span class="fir_sen">注：修改密码、手机等信息到</span>
+                                                <span class="co_blue">
+                                                    <a href="{:url('User/safety')}" style="cursor:pointer;">安全设置</a>
+                                                </span>
+                                            </div>
+                                            <div class="save_s">
+                                                <input class="save" type="submit" id="sub" name="" value="确认保存" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--footer-s-->
+        {include file="pub/footer"}
+        <!--footer-e-->
+        <script type="text/javascript">
+            // 生日-日历插件
+//            laydate.render({
+//                elem: '#birthday'
+//            });
+//            $(function() {
+//                $('.choice_hobby').click(function() {
+//                    $(this).toggleClass('red');
+//                })
+//            });
+//            function delimg(file, t) {
+//                $.get("/index.php?m=Admin&c=Uploadify&a=delupload", {
+//                    action: "del",
+//                    filename: file
+//                },
+//                function() {});
+//                $('#head_pic').val('');
+//                $('#preview').attr('src', '');
+//                $(t).remove();
+//            }
+//            function add_img(str) {
+//                var head_pic = $('#head_pic').val();
+//                $('#head_pic').val(str);
+//                $('#preview').attr('src', str);
+//                $('img[class="headpic"]').attr('src', str);
+//
+//            }
+            // 会员头像异步上传
+            layui.use('upload', function(){
+                var upload = layui.upload;
+                var uploadInst = upload.render({
+                    elem: '#head_pic',
+                    url: '{:url("User/upHeaderImg")}',
+                    done: function(res, index, upload){
+                        if(res["code"] == 1){
+                            $("#preview").attr('src','__STATIC__/uploads/'+res["imginfo"]);
+                            layer.msg("上传成功");
+                        }else{
+                            layer.msg("上传失败");
+                        }
+                    }
+                })
+            })
+
+            $("#userupdate").submit(function(){
+                var nickname = $.trim($('#nickname').val());
+                var sex = $('input[name="sex"]:checked').val();
+                //var birthday = $.trim($('#birthday').val());
+                if (nickname == '') {
+                    layer.tips('昵称不能为空!', '#nickname');
+                    return false;
+                }
+                $.ajax({
+                    type: 'post',
+                    url: "{:url('User/userUserinfo')}",
+                    data: {
+                        nickname:nickname,
+                        sex:sex,
+                    },
+                    dataType: 'JSON',
+                    success: function(res) {
+                        if (res.code == 1) {
+                            layer.msg(res.msg,{icon:1, time:1000},function() {
+//                                window.location.href = res.url;
+                            });
+                        }else{
+                            layer.msg(res.msg,{icon:2, time:1000});
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        showErrorMsg('网络失败，请刷新页面后重试');
+                    }
+                })
+                return false;
+            });
+        </script>
+    </body>
+</html>

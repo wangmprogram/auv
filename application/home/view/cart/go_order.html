@@ -1,0 +1,260 @@
+        {include file="Pub/min_header"}
+        <div class="fn-cart-pay">
+            <!-- cart-title -->
+            <div class="wrapper1190">
+                <div class="order-header">
+                    <div class="layout after">
+                        <div class="fl">
+                            <div class="logo pa-to-36 wi345">
+                                <a href="{:url('index/index')}">
+                                    <img src="__STATIC__/home/public/upload/logo/2018/03-29/7bc911adcb77eeb297aa5f17c18b41df.png" alt="" style="max-width: 240px;max-height: 80px;">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="fr">
+                            <div class="pa-to-36 progress-area">
+                                <div class="progress-area-wd" style="display:none">我的购物车</div>
+                                <div class="progress-area-tx" style="display:none">填写核对订单信息</div>
+                                <div class="progress-area-cg">成功提交订单</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end cart-title -->
+                <div class="layout after-ta order-ha">
+                    <div class="erhuh">
+                        <i class="icon-succ"></i>
+                        <h3>订单提交成功，请您尽快付款！</h3>
+                        <p class="succ-p">订单号：&nbsp;&nbsp;{$order.order_sn}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 付款金额（元）：&nbsp;&nbsp;
+                            <b>{$order.total_amount}</b>&nbsp;
+                            <b>元</b>
+                        </p>
+                        <div class="succ-tip">请您在&nbsp;&nbsp;
+                            <b>{:date('Y-m-d H:i:s',$order.add_time+3600)}</b>&nbsp;完成支付，否则订单将自动取消
+                        </div>
+                    </div>
+                    <div class="ddxq-xiaq">
+                        <!--这个是个链接去查看订单详情，注意下地址-->
+                        <a href="#">订单详情<i></i></a>
+                    </div>
+                    <form  method="post" name="cart4_form" id="cart4_form">
+                        <div class="orde-sjyy">
+                            <h3 class="titls">选择支付方式</h3>
+                            <div class="bsjy-g">
+                                <dl>
+                                    <dd>
+                                        <div class="order-payment-area">
+                                            <div class="dsfzfpte"><b>选择支付方式</b></div>
+                                            <div class="po-re dsfzf-ee">
+                                                <ul>
+                                                    <li>
+                                                        <div class="payment-area">
+                                                            <input type="radio" id="input-ALIPAY-1" value="cod" class="radio vam" name="pay_radio">
+                                                            <label for="">
+                                                                <img src="__STATIC__/home/plugins/payment/cod/logo.jpg" width="120" height="40" onClick="change_pay(this);" />
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="payment-area">
+                                                            <input type="radio" id="input-ALIPAY-1" value="alipay" class="radio vam" name="pay_radio">
+                                                            <label for="">
+                                                                <img src="__STATIC__/home/plugins/payment/alipay/logo.jpg" width="120" height="40" onClick="change_pay(this);" />
+                                                            </label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!--第三方网银支付 start-->
+                                        <!--第三方网银支付 end -->
+                                    </dd>
+                                </dl>
+                                <div class="order-payment-action-area">
+                                    <input type="submit" class="button-style-5 button-confirm-payment" id="sub" value="确认支付方式">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="master_order_sn" value="{$order.order_sn}" />
+                        <input type="hidden" name="order_id" value="{$order.order_id}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--微信扫一扫支付对话框 -->
+        <div id="wchatQrcodeDlg" class="g-cartpay-dlg" style="display: none;" data-show="">
+            <div class="g-cartpay-content">
+                <div class="g-h">
+                    <span class="u-close"></span>
+                </div>
+                <div class="g-c">
+                    <div class="g-t">使用微信支付
+                        <span>￥<small class='wx_amount'>118</small></span>
+                    </div>
+                    <div class="g-qrcode">
+                        <img alt="使用微信支付" src="./images/loading.gif" />
+                    </div>
+                </div>
+                <div class="g-f fixed">
+                    <i class="icon_scan"></i>
+                    <div class="u-label">
+                        <p>请使用微信扫一扫
+                            <br>扫描二维码完成支付</p></div>
+                </div>
+            </div>
+            <div class="u-mask"></div>
+        </div>
+        <!--微信扫一扫支付对话框 / -->
+        <div id="addCardNewBind"></div>
+        <!--footer-s-->
+        <div class="tpshop-service">
+            <ul class="w1224 clearfix">
+                <li>
+                    <i class="ico ico-day7"></i>
+                    <p class="service">7天无理由退货</p>
+                </li>
+                <li>
+                    <i class="ico ico-day15"></i>
+                    <p class="service">15天免费换货</p>
+                </li>
+                <li>
+                    <i class="ico ico-quality"></i>
+                    <p class="service">正品行货 品质保障</p>
+                </li>
+                <li>
+                    <i class="ico ico-service"></i>
+                    <p class="service">专业售后服务</p>
+                </li>
+            </ul>
+        </div>
+        <div class="footer">
+            <div class="w1224 clearfix" style="padding-bottom: 10px;">
+                <div class="left-help-list">
+                    <div class="help-list-wrap clearfix">
+                        <dl>
+                            <dt>购物指南</dt>
+                            <dd><a href="/Home/Article/detail/article_id/5.html">会员修改密码</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/6.html">修改个人资料</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/7.html">会员等级</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/8.html">常见问题</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/22.html">修改收货地址</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>售后服务</dt>
+                            <dd><a href="/Home/Article/detail/article_id/14.html">售后政策</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/15.html">退换货流程</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/16.html">退款说明</a></dd>
+                            <dd> <a href="/Home/Article/detail/article_id/17.html">取消订单</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>新手上路</dt>
+                            <dd><a href="/Home/Article/detail/article_id/1.html">新用户注册</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/2.html">积分细则</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/3.html">忘记密码</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/4.html">如何搜索</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/23.html">积分兑换说明</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>支付方式</dt>
+                            <dd><a href="/Home/Article/detail/article_id/9.html">银联支付</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/10.html">支付宝支付</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/11.html">微信支付</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/12.html">余额支付</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/13.html">分期付款</a></dd>
+                        </dl>
+                        <dl>
+                            <dt>配送方式</dt>
+                            <dd><a href="/Home/Article/detail/article_id/18.html">免运费政策</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/19.html">物流查询</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/20.html">上门自提</a></dd>
+                            <dd><a href="/Home/Article/detail/article_id/21.html">配送服务承诺</a></dd>
+                        </dl>
+                    </div>
+                    <div class="friendship-links clearfix">
+                        <span>友情链接 :</span>
+                        <div class="links-wrap-h clearfix">
+                            <a href="http://www.taobao.com" target="_blank">淘宝商城</a>
+                            <a href="http://www.tmall.com" target="_blank">天猫商城</a>
+                            <a href="http://www.jd.com" target="_blank">京东商城</a>
+                            <a href="http://www.gome.com.cn" target="_blank">国美商城</a>
+                            <a href="https://www.suning.com" target="_blank">苏宁易购</a>
+                            <a href="http://www.yhd.com" target="_blank">1号点</a>
+                            <a href="https://www.mi.com" target="_blank">小米商城</a>
+                            <a href="https://www.hc360.com" target="_blank">慧聪网</a>
+                            <a href="https://www.1688.com" target="_blank">阿里巴巴</a>
+                            <a href="https://store.meizu.com" target="_blank">魅族商城</a>
+                            <a href="https://www.vmall.com" target="_blank">华为商城</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-contact-us">
+                    <h3 class="title">联系我们</h3>
+                    <span class="phone">123456789</span>
+                    <p class="tips">周一至周日8:00-18:00<br />(仅收市话费)</p>
+                </div>
+            </div>
+            <div class="mod_copyright p">
+                <div class="grid-top">
+                    <!-- <a href="javascript:void (0);">关于我们</a><span>|</span>
+                    <a href="javascript:void (0);">联系我们</a><span>|</span>
+                    <a href="/Home/Article/detail/article_id/18.html">免运费政策</a><span>|</span>
+                    <a href="/Home/Article/detail/article_id/19.html">物流查询</a><span>|</span>
+                    <a href="/Home/Article/detail/article_id/20.html">上门自提</a><span>|</span>
+                    <a href="/Home/Article/detail/article_id/21.html">配送服务承诺</a><span>|</span> -->
+                </div>
+                <p>Copyright © 2016-2025 最好的B2B2C商城 版权所有 保留一切权利 备案号:粤12345678号</p>
+                <p class="mod_copyright_auth">
+                    <a class="mod_copyright_auth_ico mod_copyright_auth_ico_1" href="" target="_blank">经营性网站备案中心</a>
+                    <a class="mod_copyright_auth_ico mod_copyright_auth_ico_2" href="" target="_blank">可信网站信用评估</a>
+                    <a class="mod_copyright_auth_ico mod_copyright_auth_ico_3" href="" target="_blank">网络警察提醒你</a>
+                    <a class="mod_copyright_auth_ico mod_copyright_auth_ico_4" href="" target="_blank">诚信网站</a>
+                    <a class="mod_copyright_auth_ico mod_copyright_auth_ico_5" href="" target="_blank">中国互联网举报中心</a>
+                </p>
+            </div>
+        </div>
+        <style>
+            .mod_copyright { border-top: 1px solid #EEEEEE; } .grid-top { margin-top: 20px; text-align: center; } .grid-top span { margin: 0 10px; color: #ccc; } .mod_copyright > p { margin-top: 10px; color: #666; text-align: center; } .mod_copyright_auth_ico { overflow: hidden; display: inline-block; margin: 0 3px; width: 103px; height: 32px; background-image: url(./public/images/ico_footer.png); line-height: 1000px; } .mod_copyright_auth_ico_1 { background-position: 0 -151px; } .mod_copyright_auth_ico_2 { background-position: -104px -151px; } .mod_copyright_auth_ico_3 { background-position: 0 -184px; } .mod_copyright_auth_ico_4 { background-position: -104px -184px; } .mod_copyright_auth_ico_5 { background-position: 0 -217px; }
+        </style>   
+        <!--footer-e-->
+        <script>
+            $(document).ready(function() {
+                $("input[name='pay_radio']").first().trigger('click');
+            });
+            // 切换支付方式
+            function change_pay(obj) {
+                $(obj).parent().siblings('input[name="pay_radio"]').trigger('click');
+            }
+
+
+ 
+
+            //完成支付
+          $('#cart4_form').submit(function(){
+                    var pay_code = $('input[name="pay_radio"]:checked ').val();
+                    var order_id = $('input[name="order_id"]').val();
+                    $.ajax({
+                        type: 'post',
+                        url: "{:url('Cart/goOrder')}",
+                        data: {
+                            pay_code:pay_code,
+                            order_id:order_id
+                        },
+                        dataType: 'JSON',
+                        success: function(data) {
+                            if (data.status == 1) {
+                                layer.msg(data.msg,{icon:1,time:1000});
+                                window.location.href = data.url;
+                            }else{
+                                layer.msg(data.msg,{icon:2,time:1000});
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            showErrorMsg('网络失败，请刷新页面后重试');
+                        }
+                })
+                return false;
+            });
+        </script>
+    </body>
+
+</html>

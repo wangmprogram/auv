@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>评价订单</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/tpshop.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/myaccount.css" />
+    
+    <link type="text/css" rel="stylesheet" href="__STATIC__/home/css/saved_resource.css">
+    <link type="text/css" rel="stylesheet" href="__STATIC__/home/css/saved_resource(2).css" source="widget">
+    <link rel="stylesheet" type="text/css"  href="__STATIC__/layui/css/layui.css">
+    <link href="__STATIC__/home/css/jquery.raty.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="__STATIC__/home/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__STATIC__/home/js/jquery.raty.js"></script>
+    <script src="__STATIC__/home/js/global.js"></script>
+    <script type="text/javascript" src="__STATIC__/home/js/layer/layer.js"></script>
+    <script type="text/javascript" src="__STATIC__/home/js/layer/laydate/laydate.js"></script>
+    <script src="__STATIC__/layui/layui.js"></script>
+    <style type="text/css">
+        .ev-img img {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            z-index: 2;
+            border-width: 0;
+        }
+        body{
+            font: 12px/1.67em Tahoma, Arial, "Simsun", sans-serif !important;
+        }
+        .commstargoods.a_number img{
+            vertical-align: text-bottom;
+        }
+    </style>
+</head>
+<body class="bg-f5">
+{include file="pub/u_header"/}
+
+<div class="home-index-middle">
+    <div class="w1224">
+        <div class="home-main">
+            {if condition="$goodsorder['is_comment'] eq 0"}
+                    <div class="w">
+                    <div class="mycomment-detail">
+                    <div class="detail-hd" id="o-info-orderinfo" oid="20703525920" payid="4" ot="0" shipmentid="70" venderid="32+ro+cdrp0=">
+                        <div class="orderinfo">
+                            <h3 class="o-title">评价订单</h3>
+                            <div class="o-info"> <span class="mr20">订单号：{$order.order_sn}</a></span> <span>订单时间：{:date('Y-m-d H:i:s', $order['add_time'])}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post" id="add_comment" >
+                        <input type="hidden" id="order_id" name="order_id" value="{$order.order_id}">
+                        <input type="hidden" id="goods_id" name="goods_id" value="{$goodsorder.goods_id}">
+                        <input type="hidden" name="rec_id" id="rec_id" value="{$goodsorder.rec_id}">
+                        <div class="mycomment-form">
+                            <!-- page -->
+                            <div class="form-part1">
+                                <!--待评价商品-s-->
+                                    <div class="f-cutline"></div>
+                                    <div class="f-item f-goods product-741538" voucherstatus="0" catefi="670" catese="677" cateth="680">
+                                        <!--商品信息-s-->
+                                        <div class="fi-info">
+                                            <div class="comment-goods">
+                                                <div class="p-img"><a href="" target="_blank"><img src="__STATIC__/home{$goodsorder.img}" alt=""></a></div>
+                                                <div class="p-name"><a href="" target="_blank">{$goodsorder.goods_name}</a></div>
+                                                <div class="p-price"><strong>￥{$goodsorder.goods_price}</strong></div>
+                                                <div class="p-attr">{$goodsorder.spec_key_name}</div>
+                                            </div>
+                                        </div>
+                                        <!--商品信息-e-->
+                                        <div class="fi-operate" id="">
+                                            <!--评分--->
+                                            <!--评分-e-->
+                                            <div class="fop-item J-mjyx"></div>
+                                            <div class="fop-tip">
+                                                <i class="tip-icon"></i><em class="tip-text"></em>
+                                            </div>
+                                        <!--</div>-->
+                                            <div class="fop-item " >
+                                                <div class="fop-label">评价晒单</div>
+                                                 <div class="fop-main">
+                                                    <div class="f-textarea">
+                                                        <textarea name="content" data-id="" class="content"  id="comment_content" placeholder="商品是否给力？快分享你的购买心得吧~" style="height:140px" maxlength="200"></textarea>
+                                                        <div class="textarea-ext"><em class="textarea-num">
+                                                            <b id="">200</b> / 200</em>
+                                                            <span class="tips">（评价多于<span class="ftc1">10</span>个字）</span>
+                                                        </div>
+                                                    </div>
+                                                    <!--上传图片-s-->
+                                                    <div class="m-imgshow f-imgshow" >
+                                                        <div class="thumbnail-list" id="img_container" style="position: relative;">
+                                                            <span class="upload-num">最多只能上传5张图片</span>
+                                                            <button type="button" class="layui-btn" id="head_pic">
+                                                                <i class="layui-icon">&#xe67c;</i>上传图片
+                                                            </button>
+                                                            <div id="imageList" style="width:500px;height: 55px;">
+                                                            </div>
+                                                            <!--<div id="p1ap78atrc2drqrn1eee13k21unp0_html5_container" class="plupload html5" style="position: absolute; width: 50px; height: 50px; overflow: hidden; z-index: -1; opacity: 0; top: 0px; left: 0px; background: transparent;">-->
+                                                            <!--<input id="p1ap78atrc2drqrn1eee13k21unp0_html5" style="font-size: 999px; position: absolute; width: 100%; height: 100%;" type="file" accept="image/jpeg,image/gif,image/png,image/bmp" multiple>-->
+                                                            <!--</div>-->
+                                                        </div>
+                                                        <div class="bigimg-switch hide">
+                                                            <div class="bigimg-operate">
+                                                                <a href="#" class="op-rotate1"><i></i><em>左转</em></a>
+                                                                <a href="#" class="op-rotate2"><i></i><em>右转</em></a>
+                                                                <a href="#" class="op-delete"><i></i><em>删除</em></a>
+                                                            </div>
+                                                            <div class="switch-inner"> <img src="" alt="" class="bigimg">
+                                                                <div class="cursor-small"></div>
+                                                                <div class="cursor-prev"></div>
+                                                                <div class="cursor-next"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--上传图片-e-->
+                                                </div>
+                                                <div class="fop-tip"><i class="tip-icon"></i><em class="tip-text"></em></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--</div>-->
+                                <!--待评价商品-e-->
+                            </div>
+                            <!-- page -->
+                            <div class="f-btnbox">
+                                <input type="submit" name="" id="submit" value="提交" class="btn-submit">
+                                <!--<a  href="javascript:void(0);" onClick="comment_submit(this);" class="btn-submit">提交</a>-->
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            {else /}
+                <div class="mycomment-detail">
+                    <div class="detail-hd">
+                        <div class="m-success-tip">
+                            <div class="tip-inner">
+                                <i class="tip-icon"></i>
+                                <h3 class="tip-title">该商品已评价过啦~</h3>
+                                <div class="tip-hint"><a clstag="pageclick|keycount|pingjiachenggong_201605192|1" href="{:url('Order/commentList')}" class="ftc3 ml10">返回待评价列表 &gt;</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/if}
+        </div>
+    </div>
+</div>
+
+<!--footer-s-->
+
+    {include file="pub/footer" /}
+<
+<!--footer-e-->
+<script>
+
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#head_pic',
+            field:"uploadFile",
+            multiple: true,
+            url: '{:url("Order/upload")}',
+            choose: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#imageList').append('<img src="'+ result +'" alt="'+ file.name +'"  style="height:50px;width:50px;float: left">')
+                });
+            },
+            done:function(res, index, upload){
+                if(res.status == 1){
+                    $("#imageList").append('<input type="hidden" class="order_pic" name="order_pic[]" value="'+res.filename+'">');
+                }else{
+                    layer.msg("上传图片失败");
+                }
+            }
+        });
+    });
+
+    $('#add_comment').submit(function(){
+        var add_comment = $('#add_comment').val();
+        var content = $('.content').val();
+        var order_id = $('#order_id').val();
+        var goods_id = $('#goods_id').val();
+        var rec_id = $('#rec_id').val();
+        var imglist = $('input[name="order_pic[]"]');
+        var _imgs = '';
+        $.each(imglist, function(k, val){
+            _imgs += $(val).val()+",";
+        });
+        $.ajax({
+            type:'post',
+            url:'{:url("Order/commentadd")}',
+            data:{content:content,img:_imgs,add_comment:add_comment,order_id:order_id,goods_id:goods_id,rec_id:rec_id},
+            dataType:"JSON",
+            success:function(data){
+                if(data.code==1){
+                    layer.msg(data.msg,{icon:1, time:1000},function() {
+                        window.location.href = data.url;
+                    });
+                }else{
+                    layer.msg(data.msg,{icon:2, time:1000});
+                }
+            }
+        });
+        return false;
+    })
+
+    /**
+     * 提示弹窗
+     * */
+    function showErrorMsg(msg){
+        layer.alert(msg,{icon:3});
+    }
+</script>
+</body>
+</html>

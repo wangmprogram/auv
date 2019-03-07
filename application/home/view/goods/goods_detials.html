@@ -1,0 +1,1276 @@
+{include file="pub/header"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/tpshop.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/jquery.jqzoom.css">
+<script src="__STATIC__/home/js/layer/layer.js" type="text/javascript"></script>
+<script src="__STATIC__/home/js/jquery.jqzoom.js" type="text/javascript" ></script>
+<script src="__STATIC__/home/js/pc_common.js"></script>
+        <!--header-e-->
+        <div class="search-box p">
+            <div class="w1224">
+                <div class="search-path fl">
+                    <!-- 便利分类 -->
+                    {foreach $parentArr as $pArr}
+                    <a href="/Home/Goods/goodsList/cat_id/{$pArr.id}">{$pArr.name}</a>
+                    <i class="litt-xyb"></i>
+                    {/foreach}
+                    <div class="havedox"><span>{$data.goods_name}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="details-bigimg p">
+            <div class="w1224">
+                <div class="detail-img">
+                    <div class="product-gallery">
+                        <div class="product-photo" id="photoBody">
+                            <div class="product-video"></div>
+                            <i class="close-video"></i>
+                            <i class="video-play"></i>
+                            <!-- 商品大图介绍 start [[-->
+                            <div class="product-img jqzoom">
+                                <img id="zoomimg" src="__STATIC__/home{$data.original_img}"
+                                     jqimg="__STATIC__/home{$data.original_img}"></div>
+                            <!-- 商品大图介绍 end ]]-->
+                            <!-- 商品小图介绍 start [[-->
+                            <div class="product-small-img fn-clear">
+                                <a href="javascript:;" class="next-left next-btn fl disabled"> < </a>
+                                <div class="pic-hide-box fl">
+                                    <ul class="small-pic" id="small-pic" style="left:0;">
+                                        {foreach $imgs as $img}
+                                        <li class="small-pic-li ">
+                                            <a href="javascript:;">
+                                                <img src="__STATIC__/home{$img.image_url}"
+                                                     data-img="__STATIC__/home{$img.image_url}" data-big="__STATIC__/home{$img.image_url}">
+                                                <i></i>
+                                            </a>
+                                        </li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                                <a href="javascript:;" class="next-right next-btn fl">></a>
+                            </div>
+                            <!-- 商品小图介绍 end ]]-->
+                        </div>
+                        <!-- 收藏商品 start [[-->
+                        <div class="collect">
+                            <a href="javascript:void(0);" id="collectLink">
+                                <i class="collect-ico collect-ico-null"></i>
+                                <span class="collect-text">收藏商品</span>
+                                <em class="J_FavCount"></em>
+                            </a>
+                            <!--<a href="javascript:void(0);" id="collectLink"><i class="collect-ico collect-ico-ok"></i>已收藏<em class="J_FavCount">(20)</em></a>--></div>
+                        <!-- 分享商品 -->
+                        <div class="share">
+                            <div class="jiathis_style">
+                                <!-- <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt" target="_blank">
+                                    <img src="http://v3.jiathis.com/code_mini/images/btn/v1/jiathis1.gif" border="0" />
+                                </a> -->
+                            </div>
+                            <script>
+                                var jiathis_config = {
+                                    url: "http://www.tpshop.com/index.php?m=Home&c=Goods&a=goodsInfo&id=115",
+                                    pic: "http://www.tpshop.com/public/upload/goods/thumb/115/goods_thumb_115_400_400.jpeg",
+                                }
+                                var is_distribut = getCookie('is_distribut');
+                                var user_id = getCookie('user_id');
+                                // 如果已经登录了, 并且是分销商
+                                if (parseInt(is_distribut) == 1 && parseInt(user_id) > 0) {
+                                    jiathis_config.url = jiathis_config.url + "&first_leader=" + user_id;
+                                }
+                            </script>
+                            <!-- <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script> -->
+                        </div>
+                    </div>
+                </div>
+                <form id="buy_goods_form" name="buy_goods_form" method="post" action="">
+                    <input type="hidden" name="goods_id" value="{$data.goods_id}">
+                    <!-- 商品id -->
+                    <input type="hidden" name="goods_prom_type" value="0" />
+                    <!-- 活动类型 -->
+                    <input type="hidden" name="shop_price" value="{$data.shop_price}" />
+                    <!-- 活动价格 -->
+                    <input type="hidden" name="store_count" value="{$data.store_count}" />
+                    <!-- 活动库存 -->
+                    <input type="hidden" name="market_price" value="{$data.market_price}" />
+                    <!-- 商品原价 -->
+                    <input type="hidden" name="start_time" value="" />
+                    <!-- 活动开始时间 -->
+                    <input type="hidden" name="end_time" value="" />
+                    <!-- 活动结束时间 -->
+                    <input type="hidden" name="activity_title" value="" />
+                    <!-- 活动标题 -->
+                    <input type="hidden" name="prom_detail" value="" />
+                    <!-- 促销活动的促销类型 -->
+                    <input type="hidden" name="activity_is_on" value="" />
+                    <!-- 活动是否正在进行中 -->
+                    <input type="hidden" name="item_id" value="" />
+                    <!-- 商品规格id -->
+                    <input type="hidden" name="exchange_integral" value="100" />
+                    <!-- 积分 -->
+                    <input type="hidden" name="point_rate" value="1" />
+                    <!-- 积分兑换比 -->
+                    <input type="hidden" name="is_virtual" value="0" />
+                    <!-- 是否是虚拟商品 -->
+                    <div class="detail-ggsl">
+                        <h1>{$data.goods_name}</h1>
+                        <div class="presale-time" style="display: none">
+                            <div class="pre-icon fl">
+                                <span class="ys"><i class="detai-ico"></i><span id="activity_type">抢购活动</span></span>
+                            </div>
+                            <div class="pre-icon fr">
+                                <span class="per" style="display: none"><i class="detai-ico"></i><em id="order_user_num">0</em>人预定</span>
+                                <span class="ti" id="activity_time"><i class="detai-ico"></i>剩余时间：<span id="overTime"></span></span>
+                                <span class="ti" id="prom_detail"></span>
+                            </div>
+                        </div>
+                        <div class="shop-price-cou p">
+                            <div class="shop-price-le">
+                                <ul>
+                                    <li class="jaj"><span id="goods_price_title">商城价</span></li>
+                                    <li>
+                                        <span class="bigpri_jj" id="goods_price">
+                                            <em>￥{$data.shop_price}</em><!--<a href=""><em class="sale">（降价通知）</em></a>-->
+                                        </span>
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li class="jaj"> <span id="market_price_title">市场价</span></li>
+                                    <li class="though-line">
+                                        <span><em>￥</em><span id="market_price">{$data.market_price}</span></span>
+                                        <span class="mobile-buy-cheap">手机购买更便宜
+                                            <i>
+                                                <img class="small-qrcode-h" src="./public/images/qrcode.png" alt="" />
+                                                <img class="big-qrcode-h" src="./public/images/moble.png" alt="" />
+                                            </i>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <ul id="activity_title_div" style="display: none">
+                                    <li class="jaj"><span id="activity_label"></span></li>
+                                    <li>
+                                        <span id="activity_title" style="color: #df3033;background: 0 0;border: 1px solid #df3033;padding: 2px 3px;"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="shop-cou-ri">
+                                <div class="allcomm"><p>累计评价</p><p class="f_blue">{$data.comment_count}</p></div>
+                                <div class="br1"></div>
+                                <div class="allcomm"><p>累计销量</p><p class="f_blue">{$data.sales_sum}</p></div>
+                            </div>
+                        </div>
+                        <div class="standard p">
+                            <!-- 收货地址，物流运费 -start-->
+                            <ul class="list1">
+                                <li class="jaj"><span>配&nbsp;&nbsp;送：</span></li>
+                                <li class="summary-stock though-line">
+                                    <div class="dd shd_address">
+                                        <!--<div class="addrID"><div></div><b></b></div>-->
+                                        <div class="store-selector add_cj_p">
+                                            <div class="text" style="width: 150px;">
+                                                <div></div>
+                                                <b></b>
+                                            </div>
+                                            <div onclick="$(this).parent().removeClass('hover')" class="close"></div>
+                                        </div>
+                                        <span id="dispatching_msg" style="display: none;">可配送</span>
+                                        <span id="dispatching_desc" style="vertical-align: middle;position: relative;top: -4px;left: 9px;color: #666"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                           <!--  <script src="./public/js/locationJson.js"></script>
+                            <script src="./public/js/location.js"></script> -->
+                            <!-- 收货地址，物流运费 -end-->
+                        </div>
+                        <div class="standard p">
+                            <ul>
+                                <li class="jaj"><span>服&nbsp;&nbsp;务：</span></li>
+                                <li class="lawir"><span class="service">由<a>最好的B2B2C商城</a>发货并提供售后服务</span></li>
+                            </ul>
+                        </div>
+                        <div class="standard p">
+                            <ul>
+                                <li class="jaj"><span>可&nbsp;&nbsp;用：</span></li>
+                                <li class="lawir"><span class="service" id="integral">-15.1 +100积分</span></li>
+                            </ul>
+                        </div>
+                        <!-- 规格 start [[-->
+                        {foreach $c as $key=>$val}
+                        <div class="spec_goods_price_div standard p" id="{$key}">
+                            <ul>
+                                <li class="jaj"><span>{$key}</span></li>
+                                <li class="lawir colo">
+                                    {foreach $val as $k1=>$v1}
+                                    <input type="radio" hidden id="goods_spec_103" name="{$v1}" value="{$k1}" />
+                                    <a id="goods_spec_a_103" onclick="switch_zooming(''); select_filter(this);">{$v1}</a>
+                                    {/foreach}
+                                </li>
+                            </ul>
+                        </div>
+                        {/foreach}
+                        <script></script>
+                        <!-- 规格end ]]-->
+                        <div class="standard">
+                            <ul class="p">
+                                <li class="jaj"><span>数&nbsp;&nbsp;量：</span></li>
+                                <li class="lawir">
+                                    <div class="minus-plus">
+                                        <a class="mins" href="javascript:void(0);" onclick="altergoodsnum(-1)">-</a>
+                                        <!-- 商品数量 -->
+                                        <input class="buyNum" id="number" type="text" name="goods_num" value="1" onblur="altergoodsnum(0)" max="" />
+                                        <a class="add" href="javascript:void(0);" onclick="altergoodsnum(1)">+</a>
+                                    </div>
+                                    <div class="sav_shop">库存：<span id="spec_store_count">{$data.store_count}</span></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="standard p">
+                            <!-- <a id="join_cart_now" class="paybybill" href="javascript:;" onclick="buyIntegralGoods(115,1);">立即兑换</a>
+                            <a id="no_join_cart_now" class="paybybill" style="display:none;background: #ebebeb;color: #999;cursor: not-allowed">立即兑换</a> -->
+                            <a id="join_cart_now1" class="paybybill" href="javascript:;" onclick="">立即购买</a>
+                            <a id="no_join_cart_now" class="paybybill" href="javascript:;" onclick="insert_cart_now();" style="background: red;color: #fff;">加入购物车</a>
+                        </div>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    $("#no_join_cart_now").click(function(){
+                            get_item(".goods_spec_a_103");
+                    })
+                    $("#join_cart_now1").click(function(){
+                            get_item(".goods_spec_a_103");
+                    })
+
+                </script>
+                <!--看了又看-s-->
+                <div class="detail-ry p">
+                    <div class="type_more">
+                        <div class="type-top">
+                            <h2>看了又看<a class="update_h fr" href="javascript:;" onclick="replace_look();">换一换</a></h2>
+                        </div>
+                        <div id="see_and_see"></div>
+                    </div>
+                </div>
+                <!--看了又看-s-->
+            </div>
+        </div>
+        <div class="detail-main p">
+            <div class="w1224">
+                <div class="deta-le-ma">
+                    <div class="type_more">
+                        <div class="type-top"><h2>热搜推荐</h2></div>
+                        <div class="type-bot">
+                            <ul class="xg_typ">
+                                <li><a href="/Home/Goods/search/q/%E6%89%8B%E6%9C%BA.html">手机</a></li>
+                                <li><a href="/Home/Goods/search/q/%E5%B0%8F%E7%B1%B3.html">小米</a></li>
+                                <li><a href="/Home/Goods/search/q/iphone.html">iphone</a></li>
+                                <li><a href="/Home/Goods/search/q/%E4%B8%89%E6%98%9F.html">三星</a></li>
+                                <li><a href="/Home/Goods/search/q/%E5%8D%8E%E4%B8%BA.html">华为</a></li>
+                                <li><a href="/Home/Goods/search/q/%E5%86%B0%E7%AE%B1.html">冰箱</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="type_more ma-to-20">
+                        <div class="type-top"><h2>推荐热卖</h2></div>
+                        <div class="tjhot-shoplist type-bot">
+                            {foreach $hots as $hotval}
+                            <div class="alone-shop">
+                                <a href="/Home/Goods/goodsDetials/goods_id/{$hotval.goods_id}">
+                                    <img src="__STATIC__/home{$hotval.original_img}" style="display: inline;"></a>
+                                <p class="line-two-hidd">
+                                    <a href="/Home/Goods/goodsDetials/goods_id/{$hotval.goods_id}">{$hotval.goods_name}</a></p>
+                                <p class="price-tag">
+                                    <span class="li_xfo">￥</span>
+                                    <span>{$hotval.shop_price}</span></p>
+                                <!--<p class="store-alone"><a href="">恒要达食品专享店</a></p>--></div>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+                <div class="deta-ri-ma">
+                    <div class="introduceshop">
+                        <div class="datail-nav-top">
+                            <ul>
+                                <li class="red">
+                                    <a href="javascript:void(0);">商品介绍</a></li>
+                                <li>
+                                    <a href="javascript:void(0);">规格及包装</a></li>
+                                <li>
+                                    <a href="javascript:void(0);">评价
+                                        <em></em></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" onclick="getconsult(0,1)">售后服务</a></li>
+                            </ul>
+                        </div>
+                        <!--<div class="he-nav"></div>-->
+                        <div class="shop-describe shop-con-describe p">
+                            <div class="deta-descri">
+                                <p class="shopname_de">
+                                    <span>商品名称：</span>
+                                    <span>{$data.goods_name}</span></p>
+                                <div class="ma-d-uli p">
+                                    <ul>
+                                        <!--<li><span>品牌：</span><span></span></li>-->
+                                        <li>
+                                            <span>货号：</span>
+                                            <span>{$data.goods_sn}</span></li>
+                                        <li>
+                                            <span>产品名称：</span>
+                                            <span>{$data.goods_name}</span></li>
+                                        <li>
+                                            <span>品牌：</span>
+                                            <span>{$brandName}</span></li>
+                                        {foreach $cate as $ca}
+                                        <li>
+                                            <span>{$ca.attr_name}：</span>
+                                            <span>{$ca.attr_value}</span></li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                                <div class="moreparameter">
+                                    <!-- <a href="">跟多参数<em>>></em></a>
+                                    -->
+                                </div>
+                            </div>
+                            <div class="detail-img-b">
+                                <!-- 大图片 -->
+                                {foreach $imgs as $img}
+                                <p>
+                                    <img src="__STATIC__/home{$img.image_url}" style="float:none;" width="600px" title="" />
+                                </p>
+                                <p><br/></p>
+                                {/foreach}
+                            </div>
+                        </div>
+                        <div class="shop-describe shop-con-describe p" style="display: none;">
+                            <div class="deta-descri">
+                                <!-- <p class="shopname_de"><span>如果您发现商品信息不准确，<a class="de_cb" href="">欢迎纠错</a></span></p>
+                                -->
+                                <h2 class="shopname_de">属性</h2>
+                                <div class="twic_a_alon">
+                                    <p class="gray_t">产品名称</p>
+                                    <p>{$data.goods_name}</p>
+                                </div>
+                                <div class="twic_a_alon">
+                                    <p class="gray_t">品牌</p>
+                                    <p>{$brandName}</p>
+                                </div>
+                                {foreach $cate as $cat}
+                                <div class="twic_a_alon">
+                                    <p class="gray_t">{$cat.attr_name}</p>
+                                    <p>{$cat.attr_value}</p>
+                                </div>
+                                {/foreach}
+                            </div>
+                        </div>
+                        <div class="shop-con-describe p" style="display: none;">
+                            <div class="shop-describe p">
+                                <div class="comm_stsh ma-to-20">
+                                    <div class="deta-descri">
+                                        <h2>商品评价</h2></div>
+                                </div>
+                              <!--  -->
+                               <!--  <div class="deta-descri p">
+                                    <div class="cte-deta">
+                                        <ul id="fy-comment-list">
+                                            <li data-t="1" class="red">
+                                                <a href="javascript:void(0);" class="selected">全部评论（3）</a></li>
+                                            <li data-t="2">
+                                                <a href="javascript:void(0);">好评（1）</a></li>
+                                            <li data-t="3">
+                                                <a href="javascript:void(0);">中评（2）</a></li>
+                                            <li data-t="4">
+                                                <a href="javascript:void(0);">差评（0）</a></li>
+                                            <li data-t="5">
+                                                <a href="javascript:void(0);">有图（1）</a></li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                                <!-- 评论开始 -->
+                                {if condition="$n==1"}
+                                <!--商品评论-->
+                                <div class="line-co-sunall" id="ajax_comment_return">
+                                    {foreach $infosa as $v}
+                                    <div style="width: 100%;height: 130px">
+                                        <div style="width: 150px;height: 60px;float:left;">
+                                                {if condition="$v['head_pic']==''"}
+                                                    <img  src="__STATIC__/uploads/pers.png" style="width: 50px;height: 50px;float:left;border-radius: 50%;"/>
+                                                {else/}
+                                                     <img  src="__STATIC__/uploads/{$v.head_pic}" style="width: 50px;height:
+                                                50px;float:left;border-radius: 50%;"/>
+                                                {/if}
+                                                <div style="width: 80px;height: 60px;float:right;">
+                                                    <span style="line-height:60px;">{$v.username}</span>
+                                                </div>
+                                        </div>
+                                        <div style="width:700px;height: 40px;float:left;margin-left: 30px;margin-top: 15px">
+                                                <span style="line-height:40px;margin-left: 15px">{$v.content}</span>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                        {if condition="!empty($v['img'])"}
+                                        <ul>
+                                            <!--商品图片路径需要修改-->
+                                            <li  style="float:left;margin-left: 180px">
+                                                {foreach $v['img'] as $img}
+                                                    <img src="__STATIC__/uploads/imgPicture/{$img}"
+                                                     style="width: 50px;height: 50px">
+                                                {/foreach}
+                                            </li>
+                                        </ul>
+                                        {/if}
+                                        <div style="float:right;margin-top: 40px;width:200px;height: 20px">
+                                            {:date('Y-m-d H.i.s',$v['add_time'])}
+                                        </div>
+                                    </div>
+                                    {/foreach}
+                                </div>
+                               {/if}
+                                <!-- 评论结束 -->
+                            </div>
+                        </div>
+                        <div class="shop-con-describe p" style="display: none;">
+                            <div class="shop-describe p">
+                                <div class="comm_stsh ma-to-20">
+                                    <div class="deta-descri">
+                                        <h2>售后保障</h2></div>
+                                </div>
+                                <div class="deta-descri p">
+                                    <div class="securi-afr">
+                                        <ul>
+                                            <li class="frhe">
+                                                <i class="detai-ico msz1"></i>
+                                            </li>
+                                            <li class="wnuzsuhe">
+                                                <h2>卖家服务</h2>
+                                                <p>全国联保一年</p>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li class="frhe">
+                                                <i class="detai-ico msz2"></i>
+                                            </li>
+                                            <li class="wnuzsuhe">
+                                                <h2>商城承诺</h2>
+                                                <p>商城平台卖家销售并发货的商品，由平台卖家提供发票和相应的售后服务。请您放心购买！ 注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。 只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！</p>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li class="frhe">
+                                                <i class="detai-ico msz3"></i>
+                                            </li>
+                                            <li class="wnuzsuhe">
+                                                <h2>正品行货</h2>
+                                                <p>商城向您保证所售商品均为正品行货，商城自营商品开具机打发票或电子发票。</p>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li class="frhe">
+                                                <i class="detai-ico msz4"></i>
+                                            </li>
+                                            <li class="wnuzsuhe">
+                                                <h2>全国联保</h2>
+                                                <p>凭质保证书及商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由联系保修，享受法定三包售后服务），与您亲临商场选购的商品享 受相同的质量保证。商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！</p>
+                                            </li>
+                                        </ul>
+                                        <ul>
+                                            <li class="frhe">
+                                                <i class="detai-ico msz5"></i>
+                                            </li>
+                                            <li class="wnuzsuhe">
+                                                <h2>退货无忧</h2>
+                                                <p>客户购买商城自营商品7日内（含7日，自客户收到商品之日起计算），在保证商品完好的前提下，可无理由退货。（部分商品除外，详情请见各商品细则）</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="comm_stsh ma-to-20">
+                                    <div class="deta-descri">
+                                        <h2>退款说明</h2></div>
+                                </div>
+                                <div class="deta-descri p">
+                                    <div class="fetbajc">
+                                        <p>1.若您购买的家电商品已经拆封过，需要退换货，需请联系原厂开具鉴定检测单</p>
+                                        <p>2.签收商品隔日起七日内提交退货申请，2-3天快递员与您联系安排取回商品</p>
+                                        <p>3.商品退回检验，且必须附上检测单</p>
+                                        <p>5.若退回商品有缺件、影响二次销售状况时，退款作业将暂时停止，飞牛网会依商品状况报价，后由客服人员与您联系说明并于订单内扣除费用后退回剩余款项， 或您可以取消退货申请；若符合退货条件者将于商品取回后约1-2个工作日内完成退款</p>
+                                        <p>4.通过线上支付的订单办理退货，商品退回检验无误后，商城将提交退款申请, 实际款项会依照各银行作业时间返还至您原支付方式 若您采用货到付款，请于 办理退货时提供退款账户，亦于商品退回检验无误后，将退款汇至您的银行账户中</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--商品咨询-status-->
+                            
+                            <!--商品咨询-end--></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--footer-s-->
+       <!--footer-s-->
+        {include file="pub/footer"}
+        <div class="soubao-sidebar">
+            <div class="soubao-sidebar-bg"></div>
+            <div class="sidertabs tab-lis-1">
+                <div class="sider-top-stra sider-midd-1">
+                    <div class="icon-tabe-chan">
+                        <a href="/Home/User/index.html">
+                            <i class="share-side share-side1"></i>
+                            <i class="share-side tab-icon-tip triangleshow"></i>
+                        </a>
+                        <div class="dl_login">
+                            <div class="hinihdk">
+                                <img src="./public/images/dl.png" />
+                                <p class="loginafter nologin">
+                                    <span>你好，请先</span>
+                                    <a href="/Home/user/login.html">登录！</a></p>
+                                <!--未登录-e--->
+                                <!--登录后-s--->
+                                <p class="loginafter islogin">
+                                    <span class="id_jq userinfo">陈xxxxxxx</span>
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                    <a href="/Home/user/logout.html" title="点击退出">退出！</a></p>
+                                <!--未登录-s--->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="icon-tabe-chan shop-car">
+                        <a href="javascript:void(0);" onclick="ajax_side_cart_list()">
+                            <div class="tab-cart-tip-warp-box">
+                                <div class="tab-cart-tip-warp">
+                                    <i class="share-side share-side1"></i>
+                                    <i class="share-side tab-icon-tip"></i>
+                                    <span class="tab-cart-tip">购物车</span>
+                                    <span class="tab-cart-num J_cart_total_num" id="tab_cart_num">0</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="icon-tabe-chan massage">
+                        <a href="/Home/User/message_notice.html" target="_blank">
+                            <i class="share-side share-side1"></i>
+                            <!--<i class="share-side tab-icon-tip"></i>-->
+                            <span class="tab-tip">消息</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="sider-top-stra sider-midd-2">
+                    <div class="icon-tabe-chan mmm">
+                        <a href="/Home/User/goods_collect.html" target="_blank">
+                            <i class="share-side share-side1"></i>
+                            <!--<i class="share-side tab-icon-tip"></i>-->
+                            <span class="tab-tip">收藏</span>
+                        </a>
+                    </div>
+                    <div class="icon-tabe-chan hostry">
+                        <a href="/Home/User/visit_log.html" target="_blank">
+                            <i class="share-side share-side1"></i>
+                            <!--<i class="share-side tab-icon-tip"></i>-->
+                            <span class="tab-tip">足迹</span>
+                        </a>
+                    </div>
+                    <!--<div class="icon-tabe-chan sign">-->
+                    <!--<a href="" target="_blank">-->
+                    <!--<i class="share-side share-side1"></i>-->
+                    <!--&lt;!&ndash;<i class="share-side tab-icon-tip"></i>&ndash;&gt;-->
+                    <!--<span class="tab-tip">签到</span>-->
+                    <!--</a>-->
+                    <!--</div>--></div>
+            </div>
+            <div class="sidertabs tab-lis-2">
+                <div class="icon-tabe-chan advice">
+                    <a title="点击这里给我发消息" href="tencent://message/?uin=123456789&amp;Site=TPshop商城&amp;Menu=yes" target="_blank">
+                        <i class="share-side share-side1"></i>
+                        <!--<i class="share-side tab-icon-tip"></i>-->
+                        <span class="tab-tip">在线咨询</span></a>
+                </div>
+                <div class="icon-tabe-chan request">
+                    <a href="" target="_blank">
+                        <i class="share-side share-side1"></i>
+                        <!--<i class="share-side tab-icon-tip"></i>-->
+                        <span class="tab-tip">意见反馈</span></a>
+                </div>
+                <div class="icon-tabe-chan qrcode">
+                    <a href="" target="_blank">
+                        <i class="share-side share-side1"></i>
+                        <i class="share-side tab-icon-tip triangleshow"></i>
+                        <span class="tab-tip qrewm">
+                            <img src="./public/images/moble.png" />扫一扫下载APP</span></a>
+                </div>
+                <div class="icon-tabe-chan comebacktop">
+                    <a href="" target="_blank">
+                        <i class="share-side share-side1"></i>
+                        <!--<i class="share-side tab-icon-tip"></i>-->
+                        <span class="tab-tip">返回顶部</span></a>
+                </div>
+            </div>
+            <div class="shop-car-sider"></div>
+        </div>
+        <script src="__STATIC__/home/js/common.js"></script>
+        <!--看了又看-s-->
+        <div style="display: none" id="look_see">
+            {foreach $hot_goods as $hot_good}
+            <div class="tjhot-shoplist type-bot">
+                <div class="alone-shop">
+                    <a href="/Home/Goods/goodsDetials?goods_id={$hot_good.goods_id}">
+                        <img class="wiahides" src="__STATIC__/home{$hot_good.original_img}" style="display: inline;"></a>
+                    <p class="shop_name2">
+                        <a href="/Home/Goods/goodsDetials?goods_id={$hot_good.goods_id}">{$hot_good.goods_name}</a></p>
+                    <p class="price-tag">
+                        <span class="li_xfo">￥</span>
+                        <span>{$hot_good.shop_price}</span></p>
+                </div>
+            </div>
+            {/foreach}
+            <!--看了又看-s-->
+        </div>
+        <!--footer-e-->
+        <script src="./public/js/lazyload.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./public/js/headerfooter.js" type="text/javascript" ></script>
+        <script type="text/javascript">
+            if ($('#video').length > 0) { //判断是否有视频标签
+                $('#photoBody').addClass('videoshow-ac');
+            }
+            $('.video-play').click(function(event) { //点击关闭视频
+                $('#photoBody').addClass('videoshow-ac').removeClass('picshow-ac');
+                video.play();
+            });
+            $('.close-video').click(function(event) { //点击播放视频
+                $('#photoBody').addClass('picshow-ac').removeClass('videoshow-ac');
+                video.pause();
+            });
+            var commentType = 1; // 默认评论类型
+            var spec_goods_price = {
+                "103": {
+                    "key": "103",
+                    "item_id": 178,
+                    "price": "84.90",
+                    "store_count": 101
+                },
+                "104": {
+                    "key": "104",
+                    "item_id": 179,
+                    "price": "84.90",
+                    "store_count": 100
+                },
+                "105": {
+                    "key": "105",
+                    "item_id": 180,
+                    "price": "84.90",
+                    "store_count": 100
+                }
+            }; //规格库存价格
+            $(document).ready(function() {
+                /*商品缩略图放大镜*/
+                $(".jqzoom").jqueryzoom({
+                    xzoom: 500,
+                    yzoom: 500,
+                    offset: 1,
+                    position: "right",
+                    preload: 1,
+                    lens: 1
+                });
+                replace_look();
+                initBuy();
+                initSpec();
+                // initGoodsPrice();
+            });
+            /**
+             * 购买初始化
+             */
+            function initBuy() {
+                var is_virtual = $("input[name='is_virtual']").val();
+                var buy_url;
+                if (is_virtual == 1) {
+                    buy_url = "/Home/Virtual/buy_virtual.html";
+                } else {
+                    buy_url = "/Home/Cart/cart2/action/buy_now.html";
+                }
+                $('#buy_goods_form').attr('action', buy_url);
+
+            }
+            //有规格id的时候，解析规格id选中规格
+            function initSpec() {
+                var item_id = $("input[name='item_id']").val();
+                $.each(spec_goods_price,
+                function(i, o) {
+                    if (o.item_id == item_id) {
+                        var spec_key_arr = o.key.split("_");
+                        $.each(spec_key_arr,
+                        function(index, item) {
+                            var spec_radio = $("#goods_spec_" + item);
+                            var goods_spec_a = $("#goods_spec_a_" + item);
+                            spec_radio.attr("checked", "checked");
+                            goods_spec_a.addClass('red');
+                        })
+                    }
+                }) 
+                if (item_id > 0 && !$.isEmptyObject(spec_goods_price)) {
+                    var item_arr = [];
+                    $.each(spec_goods_price,
+                    function(i, o) {
+                        item_arr.push(o.item_id);
+                    })
+                    //规格id不存在商品里
+                    if ($.inArray(parseInt(item_id), item_arr) < 0) {
+                        initFirstSpec();
+                    } else {
+                        $.each(spec_goods_price,
+                        function(i, o) {
+                            if (o.item_id == item_id) {
+                                var spec_key_arr = o.key.split("_");
+                                $.each(spec_key_arr,
+                                function(index, item) {
+                                    var spec_radio = $("#goods_spec_" + item);
+                                    var goods_spec_a = $("#goods_spec_a_" + item);
+                                    spec_radio.attr("checked", "checked");
+                                    goods_spec_a.addClass('red');
+                                })
+                            }
+                        })
+                    }
+                } else {
+                    initFirstSpec();
+                }
+            }
+
+            //默认让每种规格第一个选中
+            function initFirstSpec() {
+                $('.spec_goods_price_div').each(function(i, o) {
+                    var firstSpecRadio = $(this).find("input[type='radio']").eq(0);
+                    firstSpecRadio.attr('checked', 'checked').prop('checked', 'checked');
+                    firstSpecRadio.parent().find('a').eq(0).addClass('red');
+                })
+            }
+
+            /**
+             * 获取规格
+             */
+            function get_item(obj) {
+                $(obj).addClass('red').siblings('a').removeClass('red');
+                $(obj).siblings('input').removeAttr('checked');
+                $(obj).prev('input').attr('checked', 'checked').prop('checked', 'checked');
+                var key1="";
+                var key_name="";
+                $.each($(".spec_goods_price_div").find('input[checked]'),function(key,val){
+                    key1 += $(val).val()+"_";
+                    key_name+=$(val).parent().parent().parent().attr("id");
+                    key_name+=":"+$(val).attr('name')+" ";
+                });
+                var gnum=$('#number').val();
+                var goods_id=$("input[name='goods_id']").val();
+                 $.ajax({
+                     type: 'POST',
+                     url: "{:url('home/goods/cartIn')}",
+                     data:{"goods_id":goods_id,"key":key1,"key_name":key_name,"num":gnum},
+                     dataType: 'json',
+                     success: function(data){
+                         if(data['code']==1){
+                                layer.msg(data["msg"],{icon:1,time:1000},function(){
+                                    window.location.href="/home/Cart/index";
+                                });
+                            }else if(data['code']==2){
+                                layer.msg(data["msg"],{icon:2,time:1000},function(){
+                                	window.location.href="/home/Login/login";
+                                });
+                            }else{
+                            	layer.msg(data["msg"],{icon:2,time:1000});
+                            }
+                     },
+                     error:function(data) {
+                         console.log(data.msg);
+                     },
+                 });
+            }
+
+            /**
+             * 切换规格
+             */
+            function select_filter(obj) {
+                $(obj).addClass('red').siblings('a').removeClass('red');
+                $(obj).siblings('input').removeAttr('checked');
+                $(obj).prev('input').attr('checked', 'checked').prop('checked', 'checked');
+                // console.log($("input[checked='checked']"));
+                var arr=[];
+                $.each($("input[checked='checked']"),function(key,val){
+                    arr.push($(val).val());
+                })
+                // 更新商品价格
+                initGoodsPrice(arr);
+            }
+
+            //看了又看切换
+            var tmpindex = 0;
+            var look_see_length = $('#look_see').children().length;
+            function replace_look() {
+                var listr = '';
+                if (tmpindex * 3 >= look_see_length) tmpindex = 0;
+                $('#look_see').children().each(function(i, o) {
+                    if ((i >= tmpindex * 3) && (i < (tmpindex + 1) * 3)) {
+                        listr += '<div class="tjhot-shoplist type-bot">' + $(o).html() + '</div>';
+                    }
+                });
+                tmpindex++;
+                $('#see_and_see').empty().append(listr);
+            }
+
+            //缩略图切换
+            $('.small-pic-li').mouseenter(function() {
+                if ($('#video').length > 0) {
+                    $('.close-video').trigger('click');
+                }
+                $(this).siblings().removeClass('active');
+                $(this).addClass('active');
+                $('#zoomimg').attr('src', $(this).find('img').attr('data-img'));
+                $('#zoomimg').attr('jqimg', $(this).find('img').attr('data-big'));
+            });
+
+            //缩略图切换
+            function changeImg() {
+                var $picBox = $('#small-pic');
+                var $picList = $picBox.find('.small-pic-li');
+                var length = $picList.length;
+                $picBox.css('width', 70 * length);
+                if ($('#video').length > 0) { //判断是否有视频标签
+                    $('#photoBody').addClass('videoshow-ac');
+                }
+                $('.video-play').click(function(event) { //点击关闭视频
+                    $('#photoBody').addClass('videoshow-ac').removeClass('picshow-ac');
+                    video.play();
+                });
+                $('.close-video').click(function(event) { //点击播放视频
+                    $('#photoBody').addClass('picshow-ac').removeClass('videoshow-ac');
+                    video.pause();
+                });
+                //缩略图切换
+                $picList.mouseenter(function() {
+                    if ($('#video').length > 0) {
+                        $('.close-video').trigger('click');
+                    }
+                    $(this).addClass('active').siblings().removeClass('active');
+                    $('#zoomimg').attr('src', $(this).find('img').attr('data-img'));
+                    $('#zoomimg').attr('jqimg', $(this).find('img').attr('data-big'));
+                }) 
+                var i = 0;
+                if (length <= 5) {
+                    $('.product-gallery .next-btn').css('display', 'none');
+                } else {
+                    //前一张缩略图
+                    $('.next-left').click(function() {
+                        i--;
+                        if (i < 0) {
+                            i = 0;
+                            return;
+                        }
+                        $picBox.animate({
+                            left: -i * 70
+                        },
+                        500);
+                    })
+                    //后前一张缩略图
+                    $('.next-right').click(function() {
+                        i++;
+                        if (i > length - 5) {
+                            i = length - 5;
+                            return;
+                        }
+                        $picBox.animate({
+                            left: -i * 70
+                        },500);
+                    })
+                }
+            }
+            changeImg();
+            $(function() {
+                $("#area").click(function(e) {
+                    SelCity(this, e);
+                });
+            })
+
+            $(function() {
+                ajaxComment(1, 1);
+                // 好评差评 切换
+                $('.cte-deta ul li').click(function() {
+                    $(this).addClass('red').siblings().removeClass('red');
+                    commentType = $(this).data('t'); // 评价类型   好评 中评  差评
+                    ajaxComment(commentType, 1);
+                })
+            });
+            $(function() {
+                $('.datail-nav-top ul li').click(function() {
+                    $(this).addClass('red').siblings().removeClass('red');
+                    var er = $('.datail-nav-top ul li').index(this);
+                    $('.shop-con-describe').eq(er).show().siblings('.shop-con-describe').hide();
+                })
+            })
+
+            /**
+             * 加减数量
+             * n 点击一次要改变多少
+             * maxnum 允许的最大数量(库存)
+             * number ，input的id
+             */
+             function altergoodsnum(n) {
+                var num = parseInt($('#number').val());
+                var maxnum = parseInt($('#spec_store_count').html());
+                console.log(maxnum);
+                num += n;
+                if(num<=0){
+                    num=1;
+                }
+                if (num >= maxnum) {
+                    num = maxnum;
+                }
+                $('#number').val(num);
+                
+            }
+            // function altergoodsnum(n) {
+            //     var num = parseInt($('#number').val());
+            //     var maxnum = parseInt($('#number').attr('max'));
+            //     if (maxnum > 200) {
+            //         maxnum = 200;
+            //     }
+            //     num += n;
+            //     num <= 0 ? num = 1 : num;
+            //     if (num >= maxnum) {
+            //         $(this).addClass('no-mins');
+            //         num = maxnum;
+            //     }
+            //     $('#store_count').text(maxnum - num); //更新库存数量
+            //     $('#number').val(num);
+            //     /*        initGoodsPrice();*/
+            // }
+
+            //初始化商品价格库存
+            function initGoodsPrice(arr) {
+                var goods_id = $('input[name="goods_id"]').val();
+                var info={$spec_price};
+                var obj=Object.assign({},arr);
+                obj=JSON.stringify(obj);
+                var price="";
+                var store_count="";
+                $.each(info,function(key,val){
+                    var a = val.price;
+                    var b = val.store_count;
+                    delete val.price;
+                    delete val.store_count;
+                    var val=Object.assign({},val);
+                    val=JSON.stringify(val);
+                    if(val==obj){
+                        price = a;
+                        store_count = b;
+                    }
+                })
+                var num = parseInt($('#number').val());
+                if(price){
+                    $("#goods_price").html("<em>￥</em>" + price);
+                    $("#spec_store_count").html(store_count);
+                }else{
+                    $("#goods_price").html("<em>￥</em>" + parseInt({$data.shop_price}));
+                }
+
+            }
+
+            //商品价格库存显示
+            function goods_activity_theme() {
+                var goods_prom_type = $('input[name="goods_prom_type"]').attr('value');
+                var activity_is_on = $('input[name="activity_is_on"]').attr('value');
+                if (activity_is_on == 0) {
+                    setNormalGoodsPrice();
+                } else {
+                    if (goods_prom_type == 0 || goods_prom_type == 6) {
+                        //普通商品
+                        setNormalGoodsPrice();
+                    } else if (goods_prom_type == 1) {
+                        //抢购
+                        setFlashSaleGoodsPrice();
+                    } else if (goods_prom_type == 2) {
+                        //团购
+                        setGroupByGoodsPrice();
+                    } else if (goods_prom_type == 3) {
+                        //优惠促销
+                        setPromGoodsPrice();
+                    } else {
+
+                    }
+                }
+                var buy_num = parseInt($('#number').val()); //购买数
+                var store = parseInt($('input[name="store_count"]').val()); //实际库存数量
+                if (store <= 0) {
+                    joinCart(false);
+                } else {
+                    joinCart(true);
+                }
+                if (buy_num > store) {
+                    $('.buyNum').val(store);
+                }
+            }
+
+            //普通商品库存和价格
+            function setNormalGoodsPrice() {
+                var goods_price, store_count; //商品价,商品库存
+                var market_price = $("input[name='market_price']").attr('value'); // 商品市场价
+                var exchange_integral = $("input[name='exchange_integral']").attr('value'); // 兑换积分
+                var point_rate = $("input[name='point_rate']").attr('value'); // 积分金额比
+                // 如果有属性选择项
+                if (!$.isEmptyObject(spec_goods_price)) {
+                    var goods_spec_arr = [];
+                    $("input[name^='goods_spec']").each(function() {
+                        if ($(this).attr('checked') == 'checked') {
+                            goods_spec_arr.push($(this).val());
+                        }
+                    });
+                    var spec_key = goods_spec_arr.sort(sortNumber).join('_'); //排序后组合成 key
+                    goods_price = spec_goods_price[spec_key]['price']; // 找到对应规格的价格
+                    store_count = spec_goods_price[spec_key]['store_count']; // 找到对应规格的库存
+                    $("input[name='shop_price']").attr('value', goods_price);
+                    $("input[name='store_count']").attr('value', store_count);
+                }
+                goods_price = $("input[name='shop_price']").attr('value'); // 商品本店价
+                store_count = $("input[name='store_count']").attr('value'); // 商品库存
+                $('#market_price_title').empty().html('市场价：');
+                $('#market_price').empty().html(market_price);
+                $("#goods_price").html("<em>￥</em>" + goods_price); //变动价格显示
+                var integral = round(goods_price - (exchange_integral / point_rate), 2);
+                $("#integral").html(integral + '+' + exchange_integral + '积分'); //积分显示
+                $('#spec_store_count').html(store_count);
+                $('.presale-time').hide();
+                $('#number').attr('max', store_count);
+            }
+
+            //秒杀商品库存和价格
+            function setFlashSaleGoodsPrice() {
+                var flash_sale_price = $("input[name='shop_price']").attr('value');
+                var flash_sale_count = $("input[name='store_count']").attr('value');
+                var market_price = $("input[name='market_price']").attr('value');
+                var start_time = $("input[name='start_time']").attr('value');
+                var end_time = $("input[name='end_time']").attr('value');
+                var activity_title = $("input[name='activity_title']").attr('value');
+                $("#goods_price").html("<em>￥</em>" + flash_sale_price); //变动价格显示
+                $('#spec_store_count').html(flash_sale_count);
+                $('#goods_price_title').html('抢购价：');
+                $('#market_price_title').empty().html('原&nbsp;&nbsp;价：');
+                $('#activity_label').empty().html('抢&nbsp;&nbsp;购：');
+                $('#activity_title').empty().html(activity_title);
+                $('#activity_title_div').show();
+                $('#market_price').empty().html(market_price);
+                $('.presale-time').show();
+                $('#prom_detail').hide();
+                $('#number').attr('max', flash_sale_count);
+                setInterval(activityTime, 1000);
+            }
+
+            //团购商品库存和价格
+            function setGroupByGoodsPrice() {
+                var group_by_price = $("input[name='shop_price']").attr('value');
+                var group_by_count = $("input[name='store_count']").attr('value');
+                var market_price = $("input[name='market_price']").attr('value');
+                var start_time = $("input[name='start_time']").attr('value');
+                var end_time = $("input[name='end_time']").attr('value');
+                var activity_title = $("input[name='activity_title']").attr('value');
+                $("#goods_price").empty().html("<em>￥</em>" + group_by_price); //变动价格显示
+                $('#spec_store_count').empty().html(group_by_count);
+                $('#activity_type').empty().html('团购');
+                $('#goods_price_title').empty().html('团购价：');
+                $('#market_price_title').empty().html('原&nbsp;&nbsp;价：');
+                $('#activity_label').empty().html('团&nbsp;&nbsp;购：');
+                $('#activity_title').empty().html(activity_title);
+                $('#activity_title_div').show();
+                $('#market_price').empty().html(market_price);
+                $('.presale-time').show();
+                $('#prom_detail').hide();
+                $('#number').attr('max', group_by_count);
+                setInterval(activityTime, 1000);
+            }
+
+            //促销商品库存和价格
+            function setPromGoodsPrice() {
+                var prom_goods_price = $("input[name='shop_price']").attr('value');
+                var prom_goods_count = $("input[name='store_count']").attr('value');
+                var market_price = $("input[name='market_price']").attr('value');
+                var start_time = $("input[name='start_time']").attr('value');
+                var end_time = $("input[name='end_time']").attr('value');
+                var activity_title = $("input[name='activity_title']").attr('value');
+                var prom_detail = $("input[name='prom_detail']").attr('value');
+                $("#goods_price").empty().html("<em>￥</em>" + prom_goods_price); //变动价格显示
+                $('#spec_store_count').empty().html(prom_goods_count);
+                $('#activity_type').empty().html('促销');
+                $('.presale-time').show();
+                $('#prom_detail').empty().html(prom_detail).show();
+                $('#activity_time').hide();
+                $('#goods_price_title').empty().html('促销价：');
+                $('#market_price_title').empty().html('原&nbsp;&nbsp;价：');
+                $('#activity_label').empty().html('促&nbsp;&nbsp;销：');
+                $('#activity_title').empty().html(activity_title);
+                $('#activity_title_div').show();
+                $('#market_price').empty().html(market_price);
+                $('#number').attr('max', prom_goods_count);
+            }
+
+            // 倒计时
+            function activityTime() {
+                var end_time = parseInt($("input[name='end_time']").attr('value'));
+                var timestamp = Date.parse(new Date());
+                var now = timestamp / 1000;
+                var end_time_date = formatDate(end_time * 1000);
+                var text = GetRTime(end_time_date);
+                //活动时间到了就刷新页面重新载入
+                if (now > end_time) {
+                    layer.msg('该商品活动已结束',
+                    function() {
+                        location.reload();
+                    });
+                }
+                $("#overTime").text(text);
+            }
+            //时间戳转换
+            function add0(m) {
+                return m < 10 ? '0' + m: m
+            }
+            function formatDate(now) {
+                var time = new Date(now);
+                var y = time.getFullYear();
+                var m = time.getMonth() + 1;
+                var d = time.getDate();
+                var h = time.getHours();
+                var mm = time.getMinutes();
+                var s = time.getSeconds();
+                return y + '/' + add0(m) + '/' + add0(d) + ' ' + add0(h) + ':' + add0(mm) + ':' + add0(s);
+            }
+
+            /***用作 sort 排序用*/
+            function sortNumber(a, b) {
+                return a - b;
+            }
+            /**
+             * 立即购买
+             */
+            function buy_now() {
+                if (getCookie('user_id') == '') {
+                    pop_login();
+                    return false;
+                }
+                var store_count = $("input[name='store_count']").attr('value'); // 商品原始库存
+                var buyNum = parseInt($("input[name='goods_num']").val());
+                if (buyNum <= store_count) {
+                    $('#buy_goods_form').submit();
+                } else {
+                    layer.msg('购买数量超过此商品购买上限', {
+                        icon: 3
+                    });
+                }
+            }
+            /***收藏商品**/
+            $('#collectLink').click(function() {
+                if (getCookie('user_id') == '') {
+                    layer.msg('请先登录！', {
+                        icon: 1
+                    });
+                } else {
+                    var goods_arr = new Array();
+                    //单个收藏
+                    goods_arr.push($('input[name="goods_id"]').val());
+                    // $.ajax({
+                    //     type: 'post',
+                    //     dataType: 'json',
+                    //     data: {
+                    //         goods_ids: goods_arr
+                    //     },
+                    //     url: "/Home/Goods/collect_goods.html",
+                    //     success: function(res) {
+                    //         if (res.status == 1) {
+                    //             layer.msg(res.msg, {
+                    //                 icon: 1
+                    //             });
+                    //         } else {
+                    //             layer.msg(res.msg, {
+                    //                 icon: 3
+                    //             });
+                    //         }
+                    //     }
+                    // });
+                }
+            });
+            function virtual_buy() {
+                var store_count = $("input[name='store_count']").attr('value'); // 商品原始库存
+                var buynum = parseInt($('.buyNum').val());
+                var virtual_limit = parseInt($('#virtual_limit').val());
+                if ((buynum <= store_count && buynum <= virtual_limit) || (buynum < store_count && virtual_limit == 0)) {
+                    $('#buy_goods_form').submit();
+                } else {
+                    layer.msg('购买数量超过此商品购买上限', {
+                        icon: 3
+                    });
+                }
+            }
+            /***用ajax分页显示评论**/   // 这个ajax请求获取上坡的评论  后期自己去掉注释开发
+            function ajaxComment(commentType, page) {
+                // $.ajax({
+                //     type: "GET",
+                //     url: "/index.php?m=Home&c=goods&a=ajaxComment&goods_id=115&commentType=" + commentType + "&p=" + page,
+                //     //+tab,
+                //     success: function(data) {
+                //         $("#ajax_comment_return").html('').append(data);
+                //     }
+                // });
+            }
+            /**
+             * 切换图片
+             */
+            function switch_zooming(img) {
+                if (img != '') {
+                    $('#zoomimg').attr('jqimg', img).attr('src', img);
+                }
+            }
+        </script>
+        <!--商品咨询JS-->
+        <script>// 普通 图形验证码
+            function verify() {
+                // $('#verify_code').attr('src', '/index.php?m=Home&c=User&a=verify&type=consult&r=' + Math.random());
+            }
+            var consult = $('#consult-h');
+            consult.find('.consult-item').eq(0).addClass('consult-ac');
+            consult.find('.consult-menus>a').click(function() {
+                $(this).addClass('consult-ac').siblings().removeClass('consult-ac');
+                consult.find('.consult-item').eq($(this).index()).addClass('consult-ac').siblings().removeClass('consult-ac');
+                $('.check-consult-tpye').find('a').eq($(this).index())
+            });
+            $(document).on('click', '.pagination  a',
+            function() {
+                var page = $(this).data('p');
+                var type = $('#type').val();
+                getconsult(type, page)
+            });
+            //提交
+            function goodsConsultForm() {
+                var conten = $.trim($('#conten').val());
+                if (conten.length > 500) {
+                    layer.msg('咨询内容不得超过500字符！！', {
+                        icon: 3
+                    });
+                    return false;
+                }
+                $('#consultForm').submit();
+            }
+            /**
+             * 获取商品咨询
+             * @param type  //咨询类型
+             * @param page  //分页
+             */
+            function getconsult(type, page) {
+                var goods_id = 115;
+                var url = "/index.php?m=Home&c=Goods&a=ajax_consult";
+                $.ajax({
+                    type: "Post",
+                    url: url,
+                    data: {
+                        goods_id: goods_id,
+                        consult_type: type,
+                        p: page
+                    },
+                    dataType: "html",
+                    success: function(data) {
+                        $('#consult_content').html('');
+                        $('#consult_content').append(data);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

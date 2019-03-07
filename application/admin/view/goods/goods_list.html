@@ -1,0 +1,234 @@
+﻿{include file="public\head" title="商品列表"}
+<body>
+	<style type="text/css">
+		.label{
+			cursor: pointer;
+		}
+	</style>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 商品管理 <span class="c-gray en">&gt;</span> 商品列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<!-- <div class="text-c"> 
+		<form action="" method="get">
+			日期范围：<input type="text" onfocus="WdatePicker()" id="datamin" name="start_date" class="input-text Wdate" value='' style="width:185px;" autocomplete="off">
+			-
+			<input type="text" onfocus="WdatePicker()" id="datamax" name="end_date" class="input-text Wdate" value='' style="width:185px;" autocomplete="off">
+			<input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name="keyword" value='' autocomplete="off">
+			<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		</form>
+	</div> -->
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+			<!-- <a href="javascript:;" onclick="adminsdel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> -->
+			<a href="javascript:;" onclick="goodsAdd('添加商品','{:url("admin/Goods/goodsAdd")}')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加商品</a>
+		</span>
+		<span class="r">共有数据：<strong>{$count}</strong> 条</span>
+	</div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr class="text-c">
+				<!-- <th width="25"><input type="checkbox" name="" value=""></th> -->
+				<th width="8%">商品ID</th>
+				<th width="200px">商品名称</th>
+				<th width="8%">货号</th>
+				<th width="8%">分类</th>
+				<th width="8%">价格</th>
+				<th width="8%">推荐</th>
+				<th width="8%">新品</th>
+				<th width="8%">热卖</th>
+				<th width="8%">上/下架</th>
+				<th width="8%">库存</th>
+				<th width="10%">属性/规格</th>
+				<th width="8%">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{foreach $goodsInfos as $goods}
+			<tr class="text-c">
+				<!-- <td><input type="checkbox" value="" name="ids[]"></td> -->
+				<td width="8%">{$goods.goods_id}</td>
+				<td style="width:200px;height:57px;line-height:57px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;display: inline-block;">{$goods.goods_name}</td>
+				<td width="8%">{$goods.goods_sn}</td>
+				<td width="8%">{$goods.cname}</td>
+				<td width="8%">{$goods.shop_price}</td>
+				<td width="8%">
+					{eq name="goods.is_recommend" value="1"}
+					<span class="label label-success radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_recommend},'is_recommend','goods')">是</span>
+					{else/}
+					<span class="label radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_recommend},'is_recommend','goods')">否</span>
+					{/eq}
+				</td>
+				<td width="8%">
+					{eq name="goods.is_new" value="1"}
+					<span class="label label-success radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_new},'is_new','goods')">是</span>
+					{else/}
+					<span class="label radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_new},'is_new','goods')">否</span>
+					{/eq}
+				</td>
+				<td width="8%">
+					{eq name="goods.is_hot" value="1"}
+					<span class="label label-success radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_hot},'is_hot','goods')">是</span>
+					{else/}
+					<span class="label radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_hot},'is_hot','goods')">否</span>
+					{/eq}
+				</td>
+				<td width="8%">
+					{eq name="goods.is_on_sale" value="1"}
+					<span class="label label-success radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_on_sale},'is_on_sale','goods')">是</span>
+					{else/}
+					<span class="label radius" onclick="startstop(this,{$goods.goods_id},{$goods.is_on_sale},'is_on_sale','goods')">否</span>
+					{/eq}
+				</td>
+				<td>{$goods.store_count}</td>
+				<td width="8%">
+					<a href="javascript:;" onclick="spc_add('添加规格','/admin/Goods/goodsSpcAdd?id='+{$goods.goods_id},'800','500')">添加/修改规格</a>
+					<br>
+					<a href="javascript:;" onclick="at_add('添加属性','/admin/Goods/goodsAtAdd?id='+{$goods.goods_id},'800','500')">添加/修改属性</a>
+				</td>
+				
+				<td width="8%" class="td-manage">
+					<!-- <a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','{:url("Goods/goodsEdit")}','id','900','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> -->
+					<a title="删除" href="javascript:;" onclick="admin_del(this,{$goods.goods_id})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+					
+				</td>
+			</tr>
+			{/foreach}
+			<tr>
+				<td colspan="13" style="text-align: center;">
+					{$goodsInfos->render();}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> 
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*商品属性增加*/
+function at_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*商品规格增加*/
+function spc_add(title,url,w,h){
+	layer_show(title,url,w,h);
+}
+/*产品-添加*/
+function goodsAdd(title,url){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '{:url("Goods/goodsDel")}',
+      		data:{goods_id:id},
+			dataType: 'json',
+			success: function(data){
+				if(data.status ==1){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				}else{
+					layer.msg('删除失败!',{icon:1,time:1000});
+				}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*批量删除*/
+function adminsdel(){
+	layer.confirm('确认要删除吗？',function(index){
+		var ids = '';
+		var objs = new Array();
+		$("input[name='ids[]']").each(function(key,item){
+			if($(item).prop('checked')){
+				ids += $(item).val()+',';
+				objs.push(item);
+			}
+		})
+		if(ids == ''){
+			layer.msg('请选择要删除的管理员',{icon:1,time:1000});
+			return ;
+		}
+		$.ajax({
+			type: 'POST',
+			url: '{:url("Admin/adminsdel")}',
+			data:{ids:ids},
+			dataType: 'json',
+			success: function(data){
+				if(data.status ==1){
+					$(objs).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				}else{
+					layer.msg('删除失败!',{icon:1,time:1000});
+				}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+/*管理员-编辑*/
+function admin_edit(title,url,id,w,h){
+	layer_show(title,url,w,h);
+}
+/*状态改变*/
+function startstop(obj,id,val,type,table){
+	var val = parseInt(val)?0:1;
+	$.ajax({
+		type:'post',
+		url:'{:url("Goods/startstop")}',
+		data:{
+			goods_id:id,
+			type:type,
+			val:val,
+			table:table
+		},
+		success:function(data){
+			if(data == 'true'){
+				if(!val){
+					$(obj).parent().html('<span class="label radius" onclick="startstop(this,'+id+','+val+',\''+type+'\',\''+table+'\')">否</span>')
+				}else{
+					$(obj).parent().html('<span class="label label-success radius" onclick="startstop(this,'+id+','+val+',\''+type+'\',\''+table+'\')">是</span>')
+				}
+				layer.msg('操作成功!',{icon: 1,time:1000});
+			}else{
+				layer.msg('异常错误!',{icon:5,time:1000});
+			}
+			
+		},
+		error:function(data){
+			layer.msg('error123',{icon: 5,time:1000});
+		}
+	})
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+        {include file="pub/u_header"}
+        <div class="home-index-middle">
+            <div class="w1224">
+                <div class="g-crumbs">
+                    <a href="/index.php/Home/User/index.html">我的商城</a>
+                    <i class="litt-xyb"></i>
+                    <span>地址管理</span></div>
+                <div class="home-main">
+                    <div class="le-menu fl">
+                        <div class="menu-ul">
+                            <ul>
+                                <li class="ma"><i class="account-acc1"></i>交易中心</li>
+                                <li><a href="{:url('Order/orderList')}">我的订单</a></li>
+                                <li><a href="{:url('Order/commentList')}">我的评价</a></li>
+                            </ul>
+                            <ul>
+                                <li class="ma"><i class="account-acc4"></i>个人中心</li>
+                                <li><a href="{:url('User/userUserinfo')}">个人信息</a></li>
+                                <li><a href="{:url('User/userAddressList')}">地址管理</a></li>
+                                <li><a href="{:url('User/safety')}">安全设置</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ri-menu fr">
+                        <div class="menumain p">
+                            <div class="goodpiece">
+                                <h1>地址管理</h1>
+                                <a onclick="address_edit()" href="javascript:;">
+                                    <span class="co_blue">增加新地址</span>
+                                </a>
+                            </div>
+                            <!-- <div class="personerinfro adress_manage">
+                            <form action="" method="post">
+                            <ul>
+                            <li class="infor_wi_le"><a  onclick="address_edit()"><h4>增加新地址：</h4></a></li></ul>
+                            <ul class="name_jz">
+                            <li class="infor_wi_le"><em>*</em><a href="javascript:void(0);">收货人：</a></li>
+                            <li><a href="javascript:void(0);"><input class="name_zjxs" type="text" name="" id="" value="" placeholder="收货人" /></a></li></ul>
+                            <ul class="birth_jz">
+                            <li class="infor_wi_le"><em>*</em><a href="javascript:void(0);">所在地区：</a></li>
+                            <li>
+                            <a href="javascript:void(0);">
+                            <select name="">
+                            <option value="">请选择</option></select>
+                            <span>&nbsp;&nbsp;</span>
+                            <select name="">
+                            <option value="">请选择</option></select>
+                            <span>&nbsp;&nbsp;</span>
+                            <select name="">
+                            <option value="">请选择</option></select>
+                            <span>&nbsp;&nbsp;</span></a>
+                            </li>
+                            </ul>
+                            <ul class="name_jz wibc">
+                            <li class="infor_wi_le"><em>*</em><a href="javascript:void(0);">详细地址：</a></li>
+                            <li><a href="javascript:void(0);"><input class="name_zjxs" type="text" name="" id="" value="" placeholder="详细地址" /></a></li></ul>
+                            <ul class="name_jz">
+                            <li class="infor_wi_le"><em>*</em><a href="javascript:void(0);">手机号码：</a></li>
+                            <li><a href="javascript:void(0);"><input class="name_zjxs" type="text" name="" id="" value="" placeholder="手机号码" /></a></li>
+                            <li><a href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;或&nbsp;&nbsp;&nbsp;&nbsp;固定电话：</a></li>
+                            <li><a href="javascript:void(0);"><input class="name_zjxs zjxs_change" type="text" name="" id="" value="" placeholder="区号" /></a></li>
+                            <li><a href="javascript:void(0);"><input class="name_zjxs zjxs_pl_change" type="text" name="" id="" value="" placeholder="固定电话" /></a></li></ul>
+                            <ul class="sex_jz">
+                            <li class="infor_wi_le"><a href="javascript:void(0);"></a></li>
+                            <li>
+                            <a href="javascript:void(0);">
+                            <input type="checkbox" name="sex" id="set_add" value=""><label for="set_add">设置为默认收货地址</label></a>
+                            </li>
+                            </ul>
+                            <ul class="sex_jz">
+                            <li class="infor_wi_le"><a href="javascript:void(0);"></a></li>
+                            <li>
+                            <div class="save_s">
+                            <input class="save" type="submit" id="" name="" value="保存"></div>
+                            </li>
+                            </ul>
+                            </form>
+                            </div>
+                            -->
+                            <div class="grou_num_list address_list_jl ma-to-20">
+                                <ul class="grou_tite">
+                                    <li class="sx2"><span>收货人</span></li>
+                                    <li class="sx1"><span>收货地址</span></li>
+                                    <li class="sx3"><span>联系电话</span></li>
+                                    <li class="sx5"><span>操作</span></li>
+                                </ul>
+                                {foreach $infos as $v}
+                                <ul class="add_conta_{$v.address_id}">
+                                    <li class="sx2"><span>{$v.consignee}</span></li>
+                                    <li class="sx1">
+                                        <span>{$v.full_address}</span>
+                                    </li>
+                                    <li class="sx3"><span>{$v.mobile}</span></li>
+                                    <li class="sx5">
+                                        <span {if condition="$v['is_default'] neq 0"}style="font-size:14px;background:#ffaa45;padding:2px;font-weight:400;"{/if}>
+                                            <a href="javascript:is_default({$v['address_id']})">默认地址</a>
+                                        </span>
+                                        <a href="javascript:addressupd({$v['address_id']})" class="co_blue">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="javascript:addressdel({$v['address_id']})" class="co_blue">删除</a>
+                                    </li>
+                                </ul>
+                                {/foreach}
+                            </div>
+                            <p class="gp_num2">已保存
+                                <em class="red">{:count($infos)}</em>条地址
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--footer-s-->
+        {include file="pub/footer"}
+        <!--footer-e-->
+        <script type="text/javascript">
+            $(function() {
+                $('.choice_hobby').click(function() {
+                    $(this).toggleClass('red');
+                })
+            })
+
+            /**
+             * 新增收货地址
+             *  使用 公共的 layer 弹窗插件  参考官方手册 http://layer.layui.com/
+             */
+            function address_edit(id) {
+                layer.open({
+                    type: 2,
+                    title: '添加收货地址',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['880px', '580px'],
+                    content: "{:url('User/addAddress')}",
+                });
+            }
+
+            /**
+             * 修改收货地址
+             *  使用 公共的 layer 弹窗插件  参考官方手册 http://layer.layui.com/
+             */
+            function addressupd(id) {
+                layer.open({
+                    type: 2,
+                    title: '修改收货地址',
+                    shadeClose: true,
+                    shade: 0.8,
+                    area: ['880px', '580px'],
+                    content: "{:url('User/editAddress')}?address_id="+id
+                });
+            }
+            //删除地址
+            function addressdel(id) {
+                $.ajax({
+                    type:'post',
+                    url:'{:url("User/delAddress")}',
+                    data:{address_id:id},
+                    dataType:"JSON",
+                    success:function(data){
+                        if(data.code==1){
+                            layer.msg(data.msg,{icon:1, time:1000},function() {
+                                $('.add_conta_'+id).remove();//window.location.href = data.url; //刷新父页面
+                            });
+                        }else{
+                            layer.msg(data.msg,{icon:1, time:1000})
+                        }
+                    }
+                })
+            }
+            //修改默认地址
+            function is_default(id) {
+                $.ajax({
+                    type:'post',
+                    url:'{:url("User/isdefault")}',
+                    data:{address_id:id},
+                    dataType:"JSON",
+                    success:function(data){
+                        if(data.code==1){
+                            layer.msg(data.msg,{icon:1, time:1000},function() {
+                                window.location.href = data.url; //刷新父页面
+                            });
+                        }else{
+                            layer.msg(data.msg,{icon:1, time:1000})
+                        }
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

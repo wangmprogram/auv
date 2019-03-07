@@ -1,0 +1,167 @@
+        {include file="pub/u_header"}
+		<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="{:url('User/userIndex')}">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>我的评价</span>
+			    </div>
+			    <div class="home-main">
+                    <div class="le-menu fl">
+                        <div class="menu-ul">
+                            <ul>
+                                <li class="ma"><i class="account-acc1"></i>交易中心</li>
+                                <li><a href="{:url('Order/orderList')}">我的订单</a></li>
+                                <li><a href="{:url('Order/commentList')}">我的评价</a></li>
+                            </ul>
+                            <ul>
+                                <li class="ma"><i class="account-acc4"></i>个人中心</li>
+                                <li><a href="{:url('User/userUserinfo')}">个人信息</a></li>
+                                <li><a href="{:url('User/userAddressList')}">地址管理</a></li>
+                                <li><a href="{:url('User/safety')}">安全设置</a></li>
+                            </ul>
+                        </div>
+                    </div>
+			    	<div class="ri-menu fr">
+			    		<div class="menumain p">
+			    			<div class="goodpiece">
+								<h1>我的评价</h1>
+								<!--<a href=""><span class="co_blue">帮助</span></a>-->
+							</div>
+			    			<div class="orderbook-list">
+			    				<div class="time-sala p">
+									<ul>
+										<li class="mal-l">
+                                        <a href="{:url('Order/commentList')}?is_send=1">全部</a>
+                                        </li>
+										<li class="mal-l">
+                                        <a href="{:url('Order/commentList')}?is_send=2">待评论订单</a>
+                                        </li>
+                                        <li class="mal-l">
+                                            <a href="{:url('Order/commentList')}?is_send=3">已评论</a>
+                                        </li>
+									</ul>
+								</div>
+								<div class="he"></div>
+								<div class="orderbook-list">
+					    			<div class="book-tit">
+					    				<ul>
+					    					<li class="sx1">商品信息</li>
+					    					<li class="sx2">单价</li>
+					    					<li class="sx3">数量</li>
+					    					<li class="sx4">实付款</li>
+					    					<li class="sx5">状态</li>
+					    					<li class="sx6">操作</li>
+					    				</ul>
+					    			</div>
+					    		</div>
+                                {if condition="$n==1"}
+								<div class="order-alone-li">
+									{foreach $infos as $key=>$v}
+                                    {if condition="!empty($goodsorder[$key])"}
+										<table width="100%" border="" cellspacing="" cellpadding="">
+											<tr class="time_or">
+												<td colspan="6">
+													<div class="fl_ttmm">
+														<span class="time-num">下单时间：<em class="num">{:date('Y-m-d H:i:s', $v['add_time'])}</em></span>
+														<span class="time-num">订单编号：<em class="num">{$v.order_sn}</em></span>
+														<!--<span class="time-num">卖家：<a href=""><em class="num">正也手机专营店<i class="ear"></i></em></a></span>-->
+
+														<!--<div class="dele"></div>-->
+													</div>
+													<div class="fr_ttmm"></div>
+												</td>
+											</tr>
+                                            {foreach $goodsorder as $vo}
+                                            {foreach $vo as $voo}
+                                            {if condition="$v['order_id'] eq $voo['order_id']"}
+											<tr class="conten_or">
+												<td class="sx1">
+													<div class="shop-if-dif">
+														<div class="shop-difimg">
+															<img src="__STATIC__/home{$voo.img}" width="100"
+                                                                 height="100">
+														</div>
+														<div class="shop_name">
+                                                            <a href="">{$voo.goods_name}</a>
+                                                            <p></p>
+                                                        </div>
+													</div>
+												</td>
+												<td class="sx2"><span>￥{$voo.goods_price}</span><span></span></td>
+												<td class="sx3">{$voo.goods_num}</td>
+												<td class="sx4">
+													<div class="pric_rhz">
+														<p class="d_pri"><span>￥{$voo.final_price}</span><span>
+
+                                                        </span>
+                                                        </p>
+													</div>
+												</td>
+												<td class="sx5">
+                                                    <div class="detail_or">
+                                                        <p class="d_yzo">
+                                                            {if condition="$voo['is_comment']==0"}
+                                                            未评价
+                                                            {else/}
+                                                            已评价
+                                                            {/if}
+                                                        </p>
+                                                    </div>
+												</td>
+												<td class="sx6">
+													<div class="rbac">
+                                                        {if condition="$voo['is_send']==3"}
+                                                        <p class="inspect">
+                                                               已评论
+                                                        </p>
+                                                        {elseif condition="$voo['is_send']==2"/}
+                                                            <p class="inspect">
+                                                                <a
+                                                                        href="{:url('Order/comment',['rec_id'=>$voo['rec_id']])}">
+                                                                     请评论
+                                                                </a>
+                                                            </p>
+                                                        {elseif condition="$voo['is_send']==1"/}
+                                                            <p class="inspect">
+                                                                <a href="">已发货</a>
+                                                            </p>
+                                                        {elseif condition="$voo['is_send']==0"/}
+                                                             <p class="inspect">
+                                                                <a href="">未发货</a>
+                                                             </p>
+                                                        {/if}
+													</div>
+												</td>
+											</tr>
+                                            {/if}
+                                            {/foreach}
+                                            {/foreach}
+										</table>
+                                    {/if}
+                                {/foreach}
+								</div>
+                                {else/}
+                                <div class="car-none-pl">
+                                    <i class="account-acco1"></i>您还没有订单，<a href="{:url('Index/index')}">快去逛逛吧~</a>
+                                </div>
+                                {/if}
+				    		</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s--> 
+        {include file="pub/footer"}
+
+		<!--footer-e-->
+		<script type="text/javascript">
+			$(function(){//退货记录和申请退货切换
+				$('.time-sala ul li').click(function(){
+					$(this).addClass('red').siblings().removeClass('red');
+				})
+			})
+		</script>
+	</body>
+</html>

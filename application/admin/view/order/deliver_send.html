@@ -1,0 +1,206 @@
+{include file="public/layout" }
+<style>
+.ncm-goods-gift {
+	text-align: left;
+}
+.ncm-goods-gift ul {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+}
+.ncm-goods-gift li {
+    display: inline-block;
+    letter-spacing: normal;
+    margin-right: 4px;
+    vertical-align: top;
+    word-spacing: normal;
+}
+.ncm-goods-gift li a {
+    background-color: #fff;
+    display: table-cell;
+    height: 30px;
+    line-height: 0;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    width: 30px;
+}
+.ncm-goods-gift li a img {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+a.green{
+	
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #f5f5f5;
+    border-radius: 4px;
+    color: #999;
+    cursor: pointer !important;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 20px;
+    letter-spacing: normal;
+    line-height: 20px;
+    margin: 0 5px 0 0;
+    padding: 1px 6px;
+    vertical-align: top;
+}
+
+a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
+
+.ncap-order-style .ncap-order-details{
+	margin:20px auto;
+}
+.contact-info h3,.contact-info .form_class{
+  display: inline-block;
+  vertical-align: middle;
+}
+.form_class i.fa{
+  vertical-align: text-bottom;
+}
+</style>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.go(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>订单发货</h3>
+                <h5>订单发货编辑</h5>
+            </div>
+        </div>   
+    </div>
+    <div class="ncap-order-style">
+        <form id="delivery-form" action="{:url('Order/deliverSend')}" method="post">
+            <input type="hidden" name="shipping" value="{$order.shipping_status}">
+            <input type="hidden" id="shipping_name" name="shipping_name" value="{if condition='$order.shipping_status eq 1'}{$order.shipping_name}{else/}{$shipping_list['0']['shipping_name']}{/if}">
+            <div class="ncap-order-details">
+                <div class="tabs-panels">
+                    <div class="misc-info">
+                        <h3>基本信息</h3>
+           		        <dl>
+           			        <dt>订单号：</dt>
+		                    <dd>{$order.order_sn}</dd>
+		                    <dt>下单时间：</dt>
+		                    <dd>{$order.add_time|date='Y-m-d H:i',###}</dd>
+		                    <dt>物流公司：</dt>
+		                    <dd>
+                                <select id="shipping_code" name="shipping_code" onchange="set_shipping_name()">
+		             	        {foreach $shipping_list as $shipping}
+		                          <option {if condition="$order.shipping_code eq $shipping.shipping_code"}selected{/if} value="{$shipping.shipping_code}" >{$shipping.shipping_name}</option>
+		             	        {/foreach}
+		         		        </select>
+         			        </dd>
+		                </dl>
+	                    <dl>
+	              	        <dt>配送费用：</dt>
+		                    <dd>{$order.shipping_price}</dd> 
+			            </dl>
+        	        </div>
+                    <div class="addr-note">
+                        <h4>收货信息</h4>
+                        <dl>
+                            <dt>收货人：</dt>
+                            <dd>{$order.consignee}</dd>
+                            <dt>收货地址：</dt>
+                            <dd>{$order.address}</dd>
+                        </dl>
+                        <dl>
+                            <dt>邮编：</dt>
+            	            <dd><if condition="$order.zipcode neq ''"> {$order.zipcode}<else/>N</if></dd>
+           		            <dt>电话：</dt>
+            	            <dd>{$order.mobile}</dd>
+          	            </dl>
+                        <dl>
+           		           <dt>用户备注：</dt>
+            	           <dd>{$order.user_note}</dd>
+          	            </dl>
+                    </div>
+                    <div class="goods-info">
+                        <h4>商品信息</h4>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th colspan="2">商品</th>
+                                <th>规格属性</th>
+                                <th>购买数量</th>
+                                <th>商品单价</th>
+                                <th>选择发货</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $goods as $good}
+               	            <tr>
+                                <td class="w30"><div class="goods-thumb"><a href="" target="_blank"><img alt="" src="__STATIC__/home{$good.img}" /></a></div></td>
+                                <td style="text-align: left;"><a href="" target="_blank">{$good.goods_name}</a><br/></td>
+                                <td class="w80">{$good.spec_key_name}</td>
+                                <td class="w60">{$good.goods_num}</td>
+                                <td class="w100">{$good.goods_price}</td>
+                                <td class="w60">
+                    	        {if condition="$good['is_send'] eq 1"}
+                            	    已发货
+                                {else /}
+                            	    <input type="checkbox" name="goods[]" value="{$good.rec_id}" checked="checked">
+                                {/if}
+                                </td>
+                            </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="contact-info"  style="margin-top:10px;">
+                        <dl>
+	                        <dd class="opt" style="margin-left:10px">
+               		            <a class="ncap-btn-big ncap-btn-green" href="javascript:;" onclick="dosubmit({$order.order_id})">确认发货</a>
+	                        </dd>
+	                    </dl> 
+                    </div>
+                </div>
+  	        </div>
+  	    </form>
+    </div>
+</div>
+<script type="text/javascript">
+/*批量发货*/
+function dosubmit(id){
+    var ids = '';
+    var objs = new Array();
+    $("input[name='goods[]']").each(function(key,item){
+        if($(item).prop('checked')){
+            ids += $(item).val()+',';
+            objs.push(item);
+        }
+    })
+    if(ids == ''){
+        layer.msg('请选择要商品',{icon:1,time:1000});
+        return ;
+    }
+    $.ajax({
+        type: 'POST',
+        url: '{:url("Order/deliverSend")}',
+        data:{ids:ids,order_id:id},
+        dataType: 'json',
+        success: function(data){
+            if(data.status == 1){
+                    layer.msg('已全部发货!',{icon:1,time:1000},function(){
+                        window.location.href = data.url;
+                    });
+                }else if(data.status == 2){
+                    layer.msg('已发货!',{icon:1,time:1000});
+                    window.location.reload();
+                }else{
+                    layer.msg('操作失败!',{icon:1,time:1000});
+                }
+            },
+            error:function(data) {
+                console.log(data.msg);
+            },
+        });     
+}
+function set_shipping_name(){
+	var shipping_name = $("#shipping_code").find("option:selected").text();
+	$('#shipping_name').val(shipping_name);
+}
+</script>
+</body>
+</html>

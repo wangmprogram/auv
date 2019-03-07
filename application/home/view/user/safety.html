@@ -1,0 +1,59 @@
+	{include file="pub/u_header"}
+	<!--------收货地址，物流运费-开始-------------->
+
+	<div class="home-index-middle">
+			<div class="w1224">
+				<div class="g-crumbs">
+			       	<a href="">我的商城</a>
+			       	<i class="litt-xyb"></i>
+			       	<span>安全设置</span>
+			    </div>
+			    <div class="home-main">
+					<div class="le-menu fl">
+						<div class="menu-ul">
+							<ul>
+                                <li class="ma"><i class="account-acc1"></i>交易中心</li>
+                                <li><a href="{:url('Order/orderList')}">我的订单</a></li>
+                                <li><a href="{:url('Order/commentList')}">我的评价</a></li>
+                            </ul>
+                            <ul>
+                                <li class="ma"><i class="account-acc4"></i>个人中心</li>
+                                <li><a href="{:url('User/userUserinfo')}">个人信息</a></li>
+                                <li><a href="{:url('User/userAddressList')}">地址管理</a></li>
+                                <li><a href="{:url('User/safety')}">安全设置</a></li>
+                            </ul>
+						</div>
+					</div>
+			    	<div class="ri-menu fr">
+			    		<div class="menumain">
+			    			<div class="goodpiece">
+								<h1>安全设置</h1>
+								<!--<a href=""><span class="co_blue">帮助</span></a>-->
+							</div>
+				    		<div class="menu-ri-t setsafe p">
+				    			<div class="mu-head fl">
+									<img width="100" height="100" src="__STATIC__/uploads/{$info.head_pic}" />
+				    			</div>
+				    			<div class="mu-midd fl">
+				    				<p class="advice">建议你启动全部安全设置，以保障账户及资金安全</p>
+				    			</div>
+				    		</div>
+				    		<div class="safe_list_set">
+				    			<ul>
+				    				<li class="sx2"><span>登录密码</span></li>
+				    				<li class="sx1"><span>互联网账号存在被盗风险，建议您定期更改密码以及保护账户安全。</span></li>
+				    				<li class="sx3"><a class="co_blue" href="{:url('User/password')}">修改</a></li>
+				    			</ul>
+				    		</div>
+			    		</div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!--footer-s-->
+        <div class="footer p">
+            {include file="pub/footer" /}
+        </div>
+		<!--footer-e-->
+	</body>
+</html>

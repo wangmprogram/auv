@@ -1,0 +1,45 @@
+{include file="pub/u_header"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/help.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/home/css/tpshop.css" />
+    <!--header-e-->
+<!--E头部-->
+<!-- <div style="clear: both; height:45px"></div> -->
+<div id="pageContent" class="pageContent p">
+    <div class="hc-warp" id="page">
+        <div class="hc-crumbs"><a class="p-fb" href="" target="_blank">帮助中心</a>&gt; <a>文章管理</a></div>
+        <div class="hc-column">
+            {foreach $article_cat as $vo}
+                <div class="hc-column-box">
+                    <h2><a href="" target="_self">{$vo['cat_name']}</a></h2>
+                    <ul>
+                        {foreach $article as $v}
+                            {if condition="$v['cat_id'] eq $vo['cat_id']"}
+                            <li><a href="{:url('Article/detail',['article_id'=>$v.article_id])}">{$v['title']}</a></li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+                </div>
+            {/foreach}
+        </div>
+        <!--可编辑区域开始-->
+        <div id="content"> <!--可编辑区域开始-->
+            <div style="width: 1050px; overflow: hidden; font-family: Verdana,Helvetica; float: right;">
+                <div style="border: 1px solid rgb(233, 234, 236); margin-bottom: 25px;">
+                    <h2 style="height: 34px; line-height: 34px; border-bottom-color: rgb(233, 234, 236); border-bottom-width: 1px; border-bottom-style: solid;"><span
+                            style="color: rgb(60, 60, 60); padding-top: 4px; padding-bottom: 4px; padding-left: 10px; font-size: 14px; font-weight: bold; border-left-color: rgb(242, 46, 0); border-left-width: 3px; border-left-style: solid;">{$art.title}</span>
+                    </h2>
+                   
+                    <div style="padding: 20px 30px 0px; color: rgb(60, 60, 60); font-size: 12px;">
+                        {$art.content|htmlspecialchars_decode}
+                    </div>
+                </div>
+            </div>
+            <!--可编辑区域结束-->
+        </div>
+        <!--可编辑区域结束-->
+    </div>
+</div>
+{include file="pub/footer"}
+<include file="public/sidebar_cart"/>
+</body>
+</html>

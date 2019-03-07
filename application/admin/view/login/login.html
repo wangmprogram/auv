@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <meta charset="UTF-8">
+        <title>AUV-Shop | 后台登陆</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.4 -->
+        <link href="__STATIC__/skin/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="__STATIC__/skin/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+        <!-- iCheck -->
+        <link href="__STATIC__/skin/css/blue.css" rel="stylesheet" type="text/css" />
+        <style>#imgVerify{width: 120px;margin: 0 auto; text-align: center;display: block;}</style>
+    </head>
+    <body class="login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="#">
+                    <b>AUV-Shop</b>
+                </a>
+            </div>
+            <div class="login-box-body">
+                <form method="post" id="admin-login">
+                    <input type="hidden" name="act" value="dologin">
+                    <p class="login-box-msg">管理后台</p>
+                    <div class="form-group has-feedback">
+                        <input type="text" name="user_name" id="user_name" class="form-control" placeholder="账号" />
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="密码" />
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" name="verify" class="form-control" id="verify" placeholder="验证码" style="width: 163px;" />
+                        &nbsp;<img src="{:url('Login/verify')}" id="verifyImg" style="margin-top: -2px;cursor: pointer;" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat" >立即登陆</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript" src="__STATIC__/home/Static/js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="__STATIC__/home/Public/js/layer/layer.js"></script>
+        <script type="text/javascript">
+            $('#verifyImg').click(function(){
+                $(this).prop('src', "/Admin/Login/verify/num/" + Math.random());
+            })
+            // ajax登陆
+            $("#admin-login").submit(function(){
+                var user_name = $('#user_name').val();
+                var password = $('#password').val();
+                var verify = $('#verify').val();
+                if(user_name == ''){
+                    layer.tips('用户名不能为空!', '#user_name');
+                    return false;
+                }
+                if(password == ''){
+                    layer.tips('密码不能为空!', '#password');
+                    return false;
+                }
+                if(verify == ''){
+                    layer.tips('验证码不能为空!', '#verify');
+                    return false;
+                }
+                $.ajax({
+                    type: 'post',
+                    url : '{:url("Login/dologin")}',
+                    data: {
+                        user_name:user_name, 
+                        password:password, 
+                        verify:verify
+                    },
+                    success: function (data){
+                        if(data.status == 1){
+                            window.location.href = data.url;
+                        }else{
+                            layer.msg(data.msg, {icon:2, time:1500});
+                            $('#verifyImg').prop('src', "/Admin/Login/verify/num/" + Math.random());
+                        }
+                    }
+                })
+                return false;
+            })
+        </script>
+    </body>
+</html>

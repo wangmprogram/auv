@@ -1,0 +1,252 @@
+        {include file="pub/u_header"}
+        <style>
+            .but-1{
+                margin-left:10px auto;background: #334431;color:#fff;width:80px;height:25px;
+            }
+            .but-1:hover{
+                color:white;
+            }
+        </style>
+        <div class="home-index-middle">
+            <div class="w1224">
+                <div class="g-crumbs">
+                    <a href="/index.php/Home/User/index.html">我的商城</a>
+                    <i class="litt-xyb"></i>
+                    <span>我的订单</span>
+                </div>
+                <div class="home-main">
+                    <div class="le-menu fl">
+                        <div class="menu-ul">
+                            <ul>
+                                <li class="ma"><i class="account-acc1"></i>交易中心</li>
+                                <li><a href="{:url('Order/orderList')}">我的订单</a></li>
+                                <li><a href="{:url('Order/commentList')}">我的评价</a></li>
+                            </ul>
+                            <ul>
+                                <li class="ma"><i class="account-acc4"></i>个人中心</li>
+                                <li><a href="{:url('User/userUserinfo')}">个人信息</a></li>
+                                <li><a href="{:url('User/userAddressList')}">地址管理</a></li>
+                                <li><a href="{:url('User/safety')}">安全设置</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ri-menu fr">
+                        <div class="menumain p">
+                            <div class="navitems2 p" id="navitems5">
+                                <ul>
+                                    <li><a href="{:url('Order/orderList')}?flag=1" class="selected">全部订单</a></li>
+                                    <li><a href="{:url('Order/orderList')}?flag=2" class="">待付款</a></li>
+                                    <li><a href="{:url('Order/orderList')}?flag=3" class="">未完成</a></li>
+                                    <li><a href="{:url('Order/orderList')}?flag=4" class="">已完成</a></li>
+                                     <li><a href="{:url('Order/orderList')}?flag=5" class="">已取消</a></li>
+                                </ul>
+                                <div class="wrap-line" style="width: 130px; left: 10px;">
+                                    <span style="left:15px;"></span>
+                                </div>
+                            </div>
+                            <div class="orderbook-list">
+                                <div class="book-tit">
+                                    <ul>
+                                        <li class="sx1">商品信息</li>
+                                        <li class="sx2">单价</li>
+                                        <li class="sx3">数量</li>
+                                        <li class="sx4">订单总金额</li>
+                                        <li class="sx5">订单状态</li>
+                                        <li class="sx6">操作</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="order-alone-li lastset_cm">
+                                    {foreach $order as $vo}
+                                    <table width="100%" border="" cellspacing="" cellpadding="">
+                                        <tr class="time_or">
+                                            <td colspan="6">
+                                                <div class="fl_ttmm">
+                                                    <span class="time-num">下单时间：<em class="num">{:date('Y-m-d H:i:s',$vo['add_time'])}</em></span>
+                                                    <span class="time-num">订单编号：<em class="num">{$vo.order_sn}</em></span>
+                                                    <div class="paysoon">
+                                                        {if condition="$vo['pay_status'] eq 0"}
+                                                        {in name="$vo['order_status']" value="0,1,2"}
+                                                        <a class="ps_lj" href="javascript:void(0);" onClick="dopay({$vo['order_id']})">立即支付</a>
+                                                        {/in}
+                                                        {/if}
+                                                        {if condition="$vo['pay_status'] eq 0"}
+                                                        {in name="$vo['order_status']" value="0,1,2"}
+                                                        <a class="consoorder" href="javascript:void(0);" onClick="cancel_order({$vo['order_id']})">取消订单</a>
+                                                        {/in}
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                                <div class="fr_ttmm"></div>
+                                            </td>
+                                        </tr>
+                                        {foreach $vo['goods'] as $key=>$v}
+                                        <tr class="conten_or" style="height:100px">
+                                            <td class="sx1">
+                                                <div class="shop-if-dif">
+                                                    <div class="shop-difimg">
+                                                        <img src="__STATIC__/home{$v.img}" style="float: left;width: 70px;height: 70px;" />
+                                                    </div>
+                                                    <div class="shop_name" style="margin-left:80px">
+                                                        <a href="{:url('Goods/goodsDetials')}?goods_id={$v.goods_id}">{$v.goods_name}</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="sx2">
+                                                <span>￥</span>
+                                                <span>{$v.goods_price}</span>
+                                            </td>
+                                            <td class="sx3">x{$v.goods_num}</td>
+                                            {eq name="key" value="0"}
+                                            <td class="sx4" rowspan="{$key}">
+                                                <div class="pric_rhz">
+                                                    <p class="d_pri">
+                                                        <span>￥</span>
+                                                        <span>{$vo.total_amount}</span></p>
+                                                    <p class="d_yzo">
+                                                        <span>含运费：</span>
+                                                        <span>0.00</span></p>
+                                                    <p class="d_yzo">
+                                                        <a href="javascript:void(0);"></a>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            {/eq}
+                                            {eq name="key" value="0"}
+                                            <td class="sx5" rowspan="{$key}">
+                                                <div class="detail_or">
+                                                    <p class="d_yzo">
+                                                        {if condition="$vo['order_status'] eq 3"}已取消
+                                                        {elseif condition="($vo['pay_status']==0)&&($vo['pay_code']=='alipay')"/}未付款
+                                                        {elseif condition="$vo['shipping_status'] neq 1"/}未发货
+                                                        {elseif condition="$vo['shipping_status'] eq 1"/}待收货
+                                                        {elseif condition="$vo['order_status'] eq 2"/}待评价
+                                                        {elseif condition="$vo['order_status'] eq 4"/}已完成
+                                                        {/if}
+                                                    </p>
+                                                    <p><a href="#">查看详情</a></p>
+                                                </div>
+                                            </td>
+                                            {/eq}
+                                            <td class="sx6">
+                                                <div class="rbac">
+                                                    {if condition="$v['is_send'] eq 0"}
+                                                        <button name="remind" onClick="remind()" class="but-1" herf="javascript:;" >提醒发货</button>
+                                                    {elseif condition="$v['is_send'] eq 1"/}
+                                                        <button name="commit" onClick="commit({$v.rec_id},{$vo.order_id})" class="but-1" herf="javascript:;">确认收货</button>
+                                                    {elseif condition="$v['is_send'] eq 2"/}
+                                                        <a name="comment" href="{:url('Order/comment',['rec_id'=>$v['rec_id']])}" class="but-1" style="display:inline-block;">去评价</a>
+                                                    {elseif condition="$v['is_send'] eq 3"/}
+                                                        <a name="gobuy" href="{:url('Goods/goodsDetials')}?goods_id={$v.goods_id}" class="but-1" style="display:inline-block;">再次购买</a>
+                                                    {/if}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {/foreach}
+                                    </table>
+                                    {/foreach}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--footer-s-->
+        {include file="pub/footer"}
+        <script>
+            //提醒发货
+            function remind(){
+                layer.msg('已提醒发货！',{icon: 1,time:1000});
+            }
+            //支付订单
+            function dopay(id) {
+                layer.confirm('确定支付?', {
+                    btn: ['确定', '取消'] //按钮
+                },function() {
+                    // 确定
+                    $.ajax({
+                        type: 'post',
+                        url: "/Home/Order/dopay/order_id/"+id,
+                        success: function(data) {
+                            if (data.status == 1) {
+                                layer.msg('支付成功!',{icon: 1,time:1000});
+                                location.reload();
+                            } else {
+                                layer.msg('error',{icon: 1,time:1000});
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            showErrorMsg('网络失败，请刷新页面后重试');
+                        }
+                    })
+                },function(index) {
+                    layer.close(index);
+                });
+            }
+            //取消订单
+            function cancel_order(id) {
+                layer.confirm('确定取消订单?', {
+                    btn: ['确定', '取消'] //按钮
+                },function() {
+                    // 确定
+                    $.ajax({
+                        type: 'post',
+                        url: "/Home/Order/cancelOrder/order_id/"+id,
+                        success: function(data) {
+                            if (data.status == 1) {
+                                layer.msg('已取消!',{icon: 1,time:1000});
+                                location.reload();
+                            } else {
+                                layer.msg('error',{icon: 1,time:1000});
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            showErrorMsg('网络失败，请刷新页面后重试');
+                        }
+                    })
+                },function(index) {
+                    layer.close(index);
+                });
+            }
+            //确认收货
+            function commit(rec_id,order_id) {
+                layer.confirm("你确定收到货了吗?", {
+                    btn: ['确定', '取消']
+                },function() {
+                    $.ajax({
+                        type: 'post',
+                        url: "/Home/Order/commit/rec_id/"+rec_id+"/order_id/"+order_id,
+                        success: function(data) {
+                            if (data.status == 1) {
+                                layer.msg('已确认收货!',{icon: 1,time:1000});
+                                location.reload();
+                            } else {
+                                layer.msg('error',{icon: 1,time:1000});
+                            }
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            showErrorMsg('网络失败，请刷新页面后重试');
+                        }
+                    })
+                },function(index) {
+                    layer.close(index);
+                });
+            }
+
+            function refund_order(obj) {
+                layer.open({
+                    type: 2,
+                    title: '<b>订单取消申请</b>',
+                    skin: 'layui-layer-rim',
+                    shadeClose: true,
+                    shade: 0.5,
+                    area: ['600px', '500px'],
+                    content: $(obj).attr('data-url'),
+                });
+            }
+        </script>
+    </body>
+</html>

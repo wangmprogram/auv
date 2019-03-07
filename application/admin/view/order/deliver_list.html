@@ -1,0 +1,108 @@
+{include file="public\head" title="发货列表"}
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 订单管理 <span class="c-gray en">&gt;</span> 发货列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c"> 
+		<form action="{:url('Order/deliverList')}" method="get">
+			<input type="text" class="input-text" style="width:250px" placeholder="收货人" id="" name="consignee" value='{$condition["consignee"]}' autocomplete="off">
+			<input type="text" class="input-text" style="width:250px" placeholder="订单编号" id="" name="order_sn" value='{$condition["order_sn"]}' autocomplete="off">
+			<select name="shipping_status" class="input-text" style="width:100px">
+				<option value="0" {if condition="$condition['shipping_status'] eq '0'"}selected{/if}>待发货</option>
+				<option value="1" {if condition="$condition['shipping_status'] eq '1'"}selected{/if}>已发货</option>
+				<option value="2" {if condition="$condition['shipping_status'] eq '2'"}selected{/if}>部分发货</option>
+			</select>
+			<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+		</form>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="r">共有数据：<strong>{$record}</strong> 条</span>
+	</div>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr class="text-c">
+				<th width="40">ID</th>
+				<th width="150">订单编号</th>
+				<th width="100">下单时间</th>
+				<th width="150">收货人</th>
+				<th width="150">联系电话</th>
+				<th width="130">所选物流</th>
+				<th width="100">物流费用</th>
+				<th width="100">支付时间</th>
+				<th width="100">订单总价</th>
+				<th width="100">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{if condition="$record eq 0"}
+				<tr><td colspan=10><div style="line-height:60px;font-size:26px;text-align:center">没有符合条件的记录！</div></td></tr>
+			{else /}
+			{foreach $delivers as $deliver}
+			<tr class="text-c">
+				<td>{$deliver.order_id}</td>
+				<td>{$deliver.order_sn}</td>
+				<td>{:date('Y-m-d H:i:s',$deliver.add_time)}</td>
+				<td>{$deliver.consignee}</td>
+				<td>{$deliver.mobile}</td>
+				<td>{$deliver.shipping_name}</td>
+				<td>{$deliver.shipping_price}</td>
+				<td>{$deliver.pay_time}</td>
+				<td>{$deliver.total_amount}</td>
+				<td class="td-manage">
+					<a href="{:url('Order/deliverDetail',['order_id'=>$deliver.order_id])}" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe665;查看</i></a>
+					<a href="{:url('Order/deliverSend',['order_id'=>$deliver.order_id])}" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe669;去发货</i></a>
+				</td>
+			</tr>
+			{/foreach}
+			<tr>
+				<td colspan="13" style="text-align: center;">
+					{$delivers->render()}
+				</td>
+			</tr>
+			{/if}
+		</tbody>
+	</table>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*订单-删除*/
+function order_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '{:url("Order/orderDel")}',
+			data:{order_id:id},
+			dataType: 'json',
+			success: function(data){
+				if(data.status ==1){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!',{icon:1,time:1000});
+				}else{
+					layer.msg('删除失败!',{icon:1,time:1000});
+				}
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+</script>
+</body>
+</html>

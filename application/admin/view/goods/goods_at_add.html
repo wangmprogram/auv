@@ -1,0 +1,123 @@
+{include file="public\head" title="商品列表-商品属性添加"}
+<body>
+<div class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-article-add">
+		<input type="hidden" name="goods_id" value="{$goods_id}">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品模型：</label>
+				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+					<select class="select" name="goods_type" size="1"  onChange="Third(this)">
+					<option value="">请选择</option>
+					{foreach $type as $vb}
+					<option value="{$vb.id}" 
+					{if condition="$vb.id eq $goods_type"}selected{/if}>
+						{$vb.name}
+					</option>
+					{/foreach}
+					</select>
+				</span> 
+			</div>
+		</div>
+		<div id="type"></div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button onClick="imgname()" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 提交</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/static/h-ui.admin/js/H-ui.admin.js"></script> 
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/admin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+
+//模型选择
+function Third(obj){
+	var id=$(obj).prop("value");
+  	$.ajax({
+		type: 'POST',
+		url: "{:url('admin/Goods/goodsAtAdd')}",
+		data:"id="+id,
+		dataType: 'json',
+		success: function(data){
+  			$("#type").html(data);
+		},
+		error:function(data) {
+			console.log(data.msg);
+		},
+	});	
+};
+
+$(".select").ready(function(){
+	var id=$(".select").prop("value");
+  	$.ajax({
+		type: 'POST',
+		url: "{:url('admin/goods/goodsAtAdd')}",
+		data:"id="+id,
+		dataType: 'json',
+		success: function(data){
+  			$("#type").html(data);
+		},
+		error:function(data) {
+			console.log(data.msg);
+		},
+	});	
+});
+
+
+// function imgname(){
+// 	var src=$(".imgname").html();
+// 	$("input[name=img]").attr("value","|"+src);
+// }
+$("#form-article-add").validate({
+		rules:{
+
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			$(form).ajaxSubmit({
+				type: 'post',
+				url: "{:url('admin/goods/goodsAtIn')}" ,
+				success: function(data){
+					if(data["code"] == 1){
+					layer.msg(data["msg"],{icon:1,time:1500},function(){
+					// parent.location.href = "{:url('admin/goods/goodslist')}";
+						var index = parent.layer.getFrameIndex(window.name);
+			 			parent.$('.btn-refresh').click();
+			 			window.parent.location.reload(); //刷新父页面
+						parent.layer.close(index);
+					});
+					}else{
+					layer.msg(data["msg"],{icon:1,time:1500});
+					}
+				},
+                error: function(XmlHttpRequest, textStatus, errorThrown){
+				 	layer.msg('error!',{icon:1,time:1000});
+				 }
+			});
+			//var index = parent.layer.getFrameIndex(window.name);
+			//parent.$('.btn-refresh').click();
+			//parent.layer.close(index);
+		}
+	});
+
+
+
+</script>
+</body>
+</html>

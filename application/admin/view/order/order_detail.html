@@ -1,0 +1,248 @@
+{include file="public/layout"}
+<style>
+.ncm-goods-gift {
+	text-align: left;
+}
+.ncm-goods-gift ul {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+}
+.ncm-goods-gift li {
+    display: inline-block;
+    letter-spacing: normal;
+    margin-right: 4px;
+    vertical-align: top;
+    word-spacing: normal;
+}
+.ncm-goods-gift li a {
+    background-color: #fff;
+    display: table-cell;
+    height: 30px;
+    line-height: 0;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    width: 30px;
+}
+.ncm-goods-gift li a img {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+a.green{
+	
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #f5f5f5;
+    border-radius: 4px;
+    color: #999;
+    cursor: pointer !important;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 20px;
+    letter-spacing: normal;
+    line-height: 20px;
+    margin: 0 5px 0 0;
+    padding: 1px 6px;
+    vertical-align: top;
+}
+
+a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
+
+.ncap-order-style .ncap-order-details{
+	margin:20px auto;
+}
+.contact-info h3,.contact-info .form_class{
+  display: inline-block;
+  vertical-align: middle;
+}
+.form_class i.fa{
+  vertical-align: text-bottom;
+}
+</style>
+<div class="page">
+  	<div class="fixed-bar">
+    	<div class="item-title"><a class="back" href="javascript:history.go(-1)" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+      		<div class="subject">
+        		<h3>商品订单</h3>
+        		<h5>商城实物商品交易订单查询及管理</h5>
+      		</div>
+    	</div>
+	</div>
+	<!--订单详情-->
+	<div class="ncap-order-style">
+    	<div class="ncap-order-details">
+      		<form id="order-action">
+        	<div class="tabs-panels">
+            	<!--基本信息-->
+            	<div class="misc-info">
+                	<h3>基本信息</h3>
+                	<dl>
+                    	<dt>订单 ID：</dt>
+                    	<dd>{$order.order_id}</dd>
+                    	<dt>订单号：</dt>
+                    	<dd>{$order.order_sn}</dd>
+                    	<dt>会员：</dt>
+                    	<dd>{$user.nickname}  ID:{$order.user_id}</dd>
+                	</dl>
+                	<dl>
+	                    <dt>电话：</dt>
+	                    <dd>{$order.mobile}</dd>
+	                    <dt>应付金额：</dt>
+	                    <dd>{$order.order_amount}</dd>
+	                </dl>
+                	<dl>
+                    	<dt>订单状态：</dt>
+                    	<dd>
+                    		{$status.order_status} / {$status.pay_status}
+                    		{if condition="$order['pay_code'] eq 'cod'"}<span style="color: red">(货到付款)</span>{/if}
+                        	/ {$status.shipping_status}
+                    	</dd>
+                    	<dt>下单时间：</dt>
+                    	<dd>{$order.add_time|date='Y-m-d H:i',###}</dd>
+                    	<dt>支付时间：</dt>
+                    	<dd>
+                        	{if condition="$order.pay_time neq 0"}
+                        		{$order.pay_time|date='Y-m-d H:i',###}
+                            {else/}
+                            	N
+                        	{/if}
+                    	</dd>
+                	</dl>
+                	<dl>
+                    	<dt>支付方式：</dt>
+                    	<dd>{$order.pay_name|default='其他方式'}</dd>
+                	</dl>
+            	</div>
+            	<!--收货信息-->
+        		<div class="addr-note">
+          			<h4>收货信息</h4>
+          			<dl>
+			            <dt>收货人：</dt>
+			            <dd>{$order.consignee}</dd>
+			            <dt>联系方式：</dt>
+			            <dd>{$order.mobile}</dd>
+			        </dl>
+          			<dl>
+            			<dt>收货地址：</dt>
+            			<dd>{$order.full_address}</dd>
+          			</dl>
+          			<dl>
+            			<dt>邮编：</dt>
+            			<dd>{$order.zipcode|default='N'}</dd>
+          			</dl>
+          			<dl>
+           				<dt>配送方式：</dt>
+                    	<dd>{$order.shipping_name}</dd>
+          			</dl>
+          			<dl>
+           				<dt>留言：</dt>
+            			<dd>{$order.user_note|default=''}</dd>
+          			</dl>
+        		</div>
+        		<!--商品信息-->
+        		<div class="goods-info">
+          			<h4>商品信息</h4>
+          			<table>
+            			<thead>
+			              	<tr>
+				                <th >商品编号</th>
+				                <th colspan="2">商品</th>
+				                <th>规格属性</th>
+				                <th>数量</th>
+				                <th>单品价格</th>
+				                <th>会员折扣价</th>
+				                <th>单品小计</th>
+			              	</tr>
+            			</thead>
+            			<tbody>
+            				{foreach $goods as $good}
+           					<tr>
+				                <td class="w60">{$good.goods_id}</td>
+				                <td class="w30"><div class="goods-thumb"><a href=""> <img src="__STATIC__/home{$good.img}"> </a></div></td>
+				                <td style="text-align: left;"><a href="" target="_blank">{$good.goods_name}</a><br/></td>
+				                <td class="w80">{$good.spec_key_name}</td>
+				                <td class="w60">{$good.goods_num}</td>
+				                <td class="w100">{$good.goods_price}</td>
+				                <td class="w100">{$good.final_price}</td>
+				                <td class="w80">{$good.goods_total}</td>
+              				</tr>
+              				{/foreach}
+              			</tbody>
+          			</table>
+        		</div>
+        		<div class="total-amount contact-info">
+          			<h3>订单总额：￥{$order.goods_price}</h3>
+        		</div>
+        		<!--费用信息-->
+        		<div class="contact-info">
+          			<h3>费用信息 </h3>
+          			<dl>
+			            <dt>小计：</dt>
+			            <dd>{$order.goods_price}</dd>
+			            <dt>运费：</dt>
+			            <dd>+{$order.shipping_price}</dd>
+			            <dt>积分 (-{$order.integral})：</dt>
+			            <dd>-{$order.integral_money}</dd>
+          			</dl>
+          			<dl>
+            			<dt>应付：</dt>
+            			<dd><strong class="red_common">{$order.order_amount}</strong></dd>
+           			</dl>
+        		</div>
+        		<!--操作信息-->
+        		<div class="contact-info">
+          			<h3>操作信息</h3>
+	      			<dl class="row">
+	        			<dt class="tit"><label for="note">可执行操作</label></dt>
+	        			<dd class="opt" style="margin-left:10px">
+	        				<!--未支付(0)并且货到付款(cod),已支付(1)并且支付宝支付(alipay)的订单可确认-->
+               				{if condition="((($order.pay_status == 0) && ($order.pay_code == 'cod')) || (($order.pay_status == 1) && ($order.pay_code == 'alipay'))) && ($order.order_status == 0)"}
+               					<a href="javascript:;" onclick="do_order(this,'comfire','{$order["order_id"]}')" class="ncap-btn-big ncap-btn-green">确认</a>
+               				{/if}
+               				<!--已确认(1)订单可取消确认-->
+                    		{if condition="$order.order_status eq '1'"/}
+                        		<a href="javascript:;" onclick="do_order(this,'cal_comfire','{$order["order_id"]}')" class="ncap-btn-big ncap-btn-green">取消确认</a>
+                    		{/if}
+                    		<!--未作废(5)的订单都可以变成无效订单(移除)-->
+                    		{if condition="$order.order_status neq 5"}       
+               					<a href="javascript:;" onclick="do_order(this,'valid','{$order["order_id"]}')" class="ncap-btn-big ncap-btn-green">无效</a>
+               				{/if}
+               				<!--已取消(3)和已作废(5)的订单可以删除-->
+               				{in name="$order.order_status" value="3,5"}
+               					<a href="javascript:;" onclick="do_order(this,'remove','{$order["order_id"]}')" class="ncap-btn-big ncap-btn-green">移除</a>
+               				{/in}
+	        			</dd>
+	      			</dl>
+        		</div>
+      		</div>
+      		</form>
+  		</div>
+  	</div>
+</div>
+<script type="text/javascript">
+/*订单-操作*/
+function do_order(obj,act,id){
+	$.ajax({
+		type: 'POST',
+		url: '{:url("Order/orderHandle")}',
+		data:{order_id:id,order_act:act},
+		dataType: 'json',
+		success: function(data){
+			if(data.status ==1){
+				layer.msg('操作成功!',{icon:1,time:1000});
+				window.location.reload();
+			}else if(data.status == 2){
+				layer.msg('已删除!',{icon:1,time:1000});
+				window.history.back();
+			}
+		},
+		error:function(data) {
+			console.log(data.msg);
+		},
+	});		
+}
+</script>
+</body>
+</html>

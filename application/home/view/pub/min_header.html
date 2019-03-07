@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>我的购物车列表</title>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/tpshop.css" />
+        <link rel="stylesheet" href="__STATIC__/home/css/location.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/base.css" />
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/myaccount.css"/>
+        <link rel="stylesheet" type="text/css" href="__STATIC__/home/css/jh.css"/>
+        <script src="__STATIC__/home/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="__STATIC__/home/js/global.js" type="text/javascript" charset="utf-8"></script>
+        <script src="__STATIC__/home/js/locationJson.js"></script>
+        <script src="__STATIC__/home/js/location.js" type="text/javascript" charset="utf-8"></script>
+        <script src="__STATIC__/home/js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+        <script src="__STATIC__/home/js/pc_common.js"></script>
+        <!-- 收货地址，物流运费 -->
+        <style>
+            .coupon_whether{ overflow:auto; height: 500px; width:400px; }
+        </style>
+    </head>
+    <body>
+        <!--header-s-->
+        <div class="tpshop-tm-hander p" style="border-bottom: 0;">
+            
+            <div class="top-hander" moduleid="1539923">
+                <div class="w1224 clearfix">
+                    <div class="fl">
+                        {if condition="session('user_info.user_id')"}
+                        <div class="fl">
+                            <a class="red userinfo" href="{:url('User/userUserinfo')}">{:session('user_info.nickname')}</a>
+                            <a href="{:url('User/logout')}" title="退出" target="_self" style="color:red;">安全退出</a>
+                        </div>
+                        {else /}
+                        <div class="fl">
+                            <a class="red" href="/index.php/Home/user/login.html">登录</a>
+                            <a href="/index.php/Home/user/reg.html">注册</a>
+                        </div>
+                        {/if}
+                    </div>
+                    <ul class="top-ri-header fr clearfix">
+                        <li><a target="_blank" href="{:url('Order/orderList')}">我的订单</a></li>
+                        <li class="spacer"></li>
+                        <li><a target="" href="#">我的浏览</a></li>
+                        <li class="spacer"></li>
+                        <li><a target="" href="#">我的收藏</a></li>
+                        <li class="spacer"></li>
+                        <li><a target="" href="#">客户服务</a></li>
+                        <li class="spacer"></li>
+                        <li><a target="" href="#">网站导航</a></li>
+                    </ul>
+                </div>
+            </div>
+            
